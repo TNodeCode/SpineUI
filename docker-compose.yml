@@ -1,0 +1,23 @@
+services:
+  ui:
+    image: tnodecode/spineui
+    ports:
+      - 8501:8501
+    volumes:
+      - ./config:/app/config
+      - ./datasets:/app/datasets
+    networks:
+      - app
+  yolo:
+    image: tnodecode/yolo
+    hostname: yolo
+    ports:
+      - 8080:80
+    volumes:
+      - ./models/yolov8x:/app/models
+    networks:
+      - app
+
+networks:
+  app:
+    name: network_app

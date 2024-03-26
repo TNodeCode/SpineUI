@@ -1,0 +1,28 @@
+datasets:
+  - name: spine_mixed_train
+    paths:
+      - ./datasets/spine/train/*.png
+  - name: spine_mixed_val
+    paths:
+      - ./datasets/spine/val/*.png
+  - name: spine_mixed_test
+    paths:
+      - ./datasets/spine/test/*.png
+  - name: spine_altug_train
+    paths:
+      - ./datasets/spine/train/aidv*.png
+  - name: spine_altug_val
+    paths:
+      - ./datasets/spine/val/aidv*.png
+  - name: spine_altug_test
+    paths:
+      - ./datasets/spine/test/aidv*.png
+  - name: spine_simon_train
+    paths:
+      - ./datasets/spine/train/SR*.png
+  - name: spine_simon_val
+    paths:
+      - ./datasets/spine/val/SR*.png
+  - name: spine_simon_test
+    paths:
+      - ./datasets/spine/test/SR*.png
