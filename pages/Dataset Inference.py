@@ -1,3 +1,4 @@
+import os
 import streamlit as st
 import requests
 import pandas as pd
@@ -23,7 +24,31 @@ def send_image(url: str, image_file):
         return json_data["bboxes"]
     else:
         st.error("Error occurred during the request.")
-        print(response.text)
+
+
+def get_detections_filename(model_name: str, dataset_name: str):
+    return f"detections/{model_name}_{dataset_name}.csv"
+
+
+def get_filenames_already_predicted(model_name: str, dataset_name: str) -> list[str]:
+    filepath = get_detections_filename(model_name=model_name, dataset_name=dataset_name)
+    if os.path.exists(filepath):
+        df = pd.read_csv(filepath)
+        return list(df['filename'].unique())
+    else:
+        return []
+
+
+def update_detections(model_name: str, dataset_name: str, new_df: pd.DataFrame):
+    detections_filename = get_detections_filename(model_name=model_name, dataset_name=dataset_name)
+    df = None
+    if os.path.exists(detections_filename):
+        df = pd.read_csv(detections_filename)
+        df = pd.concat([df, new_df])
+    else:
+        df = new_df
+    df = df.drop_duplicates()
+    df.to_csv(detections_filename, index=False)
 
 
 def view_dataset_upload():
@@ -54,6 +79,8 @@ def view_dataset_upload():
 
     if selected_dataset and selected_model:
         paths = DatasetConfiguration.get_dataset_image_paths(selected_dataset)
+        already_predicted_files = get_filenames_already_predicted(model_name=selected_model, dataset_name=selected_dataset)
+        paths = list(filter(lambda x: os.path.basename(x) not in already_predicted_files, paths))
         inference_button = st.button("Perform Inference on Dataset")
         
         # Check if an image file was uploaded
@@ -64,7 +91,8 @@ def view_dataset_upload():
                 with open(path, "rb") as image_file:
                     # Call the function to send the image
                     bboxes = send_image(endpoint['url'], image_file)
-                    print("BOXES", bboxes)
+                    df_boxes_new = pd.DataFrame(bboxes)
+                    update_detections(model_name=selected_model, dataset_name=selected_dataset, new_df=df_boxes_new)
 
                     # Render bounding boxes into image
                     image_bboxes = BBoxDrawer.draw_bboxes(

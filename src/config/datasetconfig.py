@@ -54,7 +54,6 @@ class DatasetConfiguration:
             A list of all image paths belonging to the dataset
         """
         datasets = DatasetConfiguration.get_available_datasets()
-        print("DS", datasets)
         dataset = list(filter(lambda x: x['name'] == dataset_name, datasets))[0]
         image_paths = []
         for path in dataset['paths']:
