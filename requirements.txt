@@ -1,3 +1,6 @@
 streamlit
 pillow
 pyyaml
+dash
+dash-bootstrap-components
+globox

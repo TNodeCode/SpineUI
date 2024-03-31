@@ -2,6 +2,7 @@ import streamlit as st
 import numpy as np
 import pandas as pd
 from PIL import Image, ImageDraw
+from src.views.pagination import Pagination
 
 
 def view_model_comparison(basepath: str, cvs_files: list[str]):
@@ -24,36 +25,6 @@ def view_model_comparison(basepath: str, cvs_files: list[str]):
     df_2 = pd.read_csv(csv_filename_2)
     if not "score" in df_2.columns:
         df_2["score"] = 1.0
-
-    class Pagination:
-        def __init__(self, df) -> None:
-            self.df = df
-            if 'selected_index' not in st.session_state:
-                st.session_state['selected_index'] = 0
-            self.selected_index = st.session_state['selected_index']
-            self.num_filenames = len(df['filename'].unique())
-            self.previous_index = (self.selected_index - 1) % self.num_filenames
-            self.next_index = (self.selected_index + 1) % self.num_filenames
-
-        def forward(self):
-            self.selected_index = self.next_index
-            st.session_state['selected_index'] = self.selected_index
-            self.previous_index = (self.selected_index - 1) % self.num_filenames
-            self.next_index = (self.selected_index + 1) % self.num_filenames
-
-        def backward(self):
-            self.selected_index = self.previous_index
-            st.session_state['selected_index'] = self.selected_index
-            self.previous_index = (self.selected_index - 1) % self.num_filenames
-            self.next_index = (self.selected_index + 1) % self.num_filenames
-
-        def update_selected_index(self, filename):
-            self.selected_index = int(np.where(self.df['filename'].unique() == filename)[0][0])
-            st.session_state['selected_index'] = self.selected_index
-            self.previous_index = (self.selected_index - 1) % self.num_filenames
-            self.next_index = (self.selected_index + 1) % self.num_filenames
-
-
 
     pagination = Pagination(df=df_1)
 

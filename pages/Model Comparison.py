@@ -11,8 +11,8 @@ if not os.path.isdir("./datasets"):
     os.makedirs("./datasets", exist_ok=True)
 
 # Base path where to look for the images
-basepath = "./datasets/spine/train"
-available_cvs_files = glob.glob("*.csv")
+basepath = "./datasets/spine/val"
+available_cvs_files = glob.glob("detections/*.csv")
 
 # headline
 st.markdown("# Object Detection Model Evaluation and Comparison")

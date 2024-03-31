@@ -2,27 +2,144 @@ datasets:
   - name: spine_mixed_train
     paths:
       - ./datasets/spine/train/*.png
+    annotations:
+      - name: original
+        type: coco
+        paths: 
+          - ./datasets/spine/annotations/instances_train2017.json
+      - name: sam-b
+        type: masks
+        paths: 
+          - ./datasets/spine/train-sam-b/*
+      - name: sam-l
+        type: masks
+        paths: 
+          - ./datasets/spine/train-sam-l/*
   - name: spine_mixed_val
     paths:
       - ./datasets/spine/val/*.png
+    annotations:
+      - name: original
+        type: coco
+        paths: 
+          - ./datasets/spine/annotations/instances_val2017.json
+      - name: sam-b
+        type: masks
+        paths: 
+          - ./datasets/spine/val-sam-b/*
+      - name: sam-l
+        type: masks
+        paths: 
+          - ./datasets/spine/val-sam-l/*
   - name: spine_mixed_test
     paths:
       - ./datasets/spine/test/*.png
+    annotations:
+      - name: original
+        type: coco
+        paths: 
+          - ./datasets/spine/annotations/instances_test2017.json
+      - name: sam-b
+        type: masks
+        paths: 
+          - ./datasets/spine/test-sam-b/*
+      - name: sam-l
+        type: masks
+        paths: 
+          - ./datasets/spine/test-sam-l/*
   - name: spine_altug_train
     paths:
       - ./datasets/spine/train/aidv*.png
+    annotations:
+      - name: original
+        type: coco
+        paths: 
+          - ./datasets/spine/annotations/instances_train2017.json
+      - name: sam-b
+        type: masks
+        paths: 
+          - ./datasets/spine/train-sam-b/aidv*
+      - name: sam-l
+        type: masks
+        paths: 
+          - ./datasets/spine/train-sam-l/aidv*
   - name: spine_altug_val
     paths:
       - ./datasets/spine/val/aidv*.png
+    annotations:
+      - name: original
+        type: coco
+        paths: 
+          - ./datasets/spine/annotations/instances_val2017.json
+      - name: sam-b
+        type: masks
+        paths: 
+          - ./datasets/spine/val-sam-b/aidv*
+      - name: sam-l
+        type: masks
+        paths: 
+          - ./datasets/spine/val-sam-l/aidv*
   - name: spine_altug_test
     paths:
       - ./datasets/spine/test/aidv*.png
+    annotations:
+      - name: original
+        type: coco
+        paths: 
+          - ./datasets/spine/annotations/instances_test2017.json
+      - name: sam-b
+        type: masks
+        paths: 
+          - ./datasets/spine/test-sam-b/aidv*
+      - name: sam-l
+        type: masks
+        paths: 
+          - ./datasets/spine/test-sam-l/aidv*
   - name: spine_simon_train
     paths:
       - ./datasets/spine/train/SR*.png
+    annotations:
+      - name: original
+        type: coco
+        paths: 
+          - ./datasets/spine/annotations/instances_train2017.json
+      - name: sam-b
+        type: masks
+        paths: 
+          - ./datasets/spine/train-sam-b/SR*
+      - name: sam-l
+        type: masks
+        paths: 
+          - ./datasets/spine/train-sam-l/SR*
   - name: spine_simon_val
     paths:
       - ./datasets/spine/val/SR*.png
+    annotations:
+      - name: original
+        type: coco
+        paths: 
+          - ./datasets/spine/annotations/instances_val2017.json
+      - name: sam-b
+        type: masks
+        paths: 
+          - ./datasets/spine/val-sam-b/SR*
+      - name: sam-l
+        type: masks
+        paths: 
+          - ./datasets/spine/val-sam-l/SR*
   - name: spine_simon_test
     paths:
       - ./datasets/spine/test/SR*.png
+    annotations:
+      - name: original
+        type: coco
+        paths: 
+          - ./datasets/spine/annotations/instances_test2017.json
+      - name: sam-b
+        type: masks
+        paths: 
+          - ./datasets/spine/test-sam-b/SR*
+      - name: sam-l
+        type: masks
+        paths: 
+          - ./datasets/spine/test-sam-l/SR*
