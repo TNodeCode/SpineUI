@@ -6,6 +6,8 @@ datasets:
       patterns:
         - regex: .*SR052N([0-9]{1})D([0-9]{1})day([0-9]{1})stack([0-9]{1}).*
           stack_name: "Simon N$1 D$2 day $3 stack $4"
+        - regex: .*aidv853_date([0-9]{2})([0-9]{2})([0-9]{2})_tp([0-9]{1})_stack([0-9]{1})_sub([0-9]{2})_layer([0-9]{3}).*
+          stack_name: "Altug $1-$2-$3 tp $4 stack $5 sub $6 layer $7"
     annotations:
       - name: original
         type: coco

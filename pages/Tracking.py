@@ -1,3 +1,4 @@
+import os
 import streamlit as st
 import plotly.figure_factory as ff
 import pandas as pd
@@ -47,19 +48,39 @@ selected_dataset = st.selectbox("Select Dataset", DatasetConfiguration.get_datas
 
 if selected_dataset:
     stacks = DatasetConfiguration.get_dataset_stacks(dataset_name=selected_dataset)
+    for s in stacks.keys():
+        print("STACK", stacks[s].name, stacks[s].image_paths)
     stack_names = stacks.keys()
     selected_stack = st.selectbox("Select Stack", stack_names)
+    stack_entity = stacks[selected_stack]
 
-# Read Gantt chart data from a CSV file or create a sample DataFrame
-# Replace this with your own data source
-df = pd.DataFrame({
-    'Task': ['Spine 1', 'Spine 2', 'Spine 3', 'Spine 4', 'Spine 5', 'Spine 6'],
-    'Start': ['0', '2', '3', '2', '5', '3'],
-    'Finish': ['1', '4', '6', '5', '7', '6']
-})
+    df_det = pd.read_csv("./detections/yolov8x_spine_mixed_train.csv") # TODO
+    stack_bboxes = []
+    for filename in stack_entity.image_paths:
+        bboxes = df_det[df_det['filename'] == os.path.basename(filename)][["xmin", "ymin", "xmax", "ymax", "score"]].to_numpy()
+        bboxes[:, 0:3] = bboxes[:, 0:3].astype(int)
+        stack_bboxes.append(bboxes)
+    tracking_results = CentroidTracker.stack_tracking(stack_bboxes=stack_bboxes)
+    
 
-# Generate the Gantt chart
-fig = generate_gantt_chart(df)
+    # Read Gantt chart data from a CSV file or create a sample DataFrame
+    # Replace this with your own data source
+    """
+    df = pd.DataFrame({
+        'Task': ['Spine 1', 'Spine 2', 'Spine 3', 'Spine 4', 'Spine 5', 'Spine 6'],
+        'Start': ['0', '2', '3', '2', '5', '3'],
+        'Finish': ['1', '4', '6', '5', '7', '6']
+    })
+    """
 
-# Display the Gantt chart using Plotly
-st.plotly_chart(fig, use_container_width=True)
+    df = pd.DataFrame({
+        'Task': list(tracking_results['object_ids']),
+        'Start': list(map(lambda x: x[0], tracking_results['first_appearance'].items())),
+        'Finish': list(map(lambda x: x[0], tracking_results['last_appearance'].items()))
+    })
+
+    # Generate the Gantt chart
+    fig = generate_gantt_chart(df)
+
+    # Display the Gantt chart using Plotly
+    st.plotly_chart(fig, use_container_width=True)

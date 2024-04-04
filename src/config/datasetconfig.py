@@ -80,7 +80,6 @@ class DatasetConfiguration:
                 matches = re.match(pattern=pattern['regex'], string=image_path)
                 # If there is no match we can continue
                 if matches is None:
-                    print("NO MATCHES", pattern["regex"], image_path)
                     continue
                 # Get all groups of the regex match
                 groups = matches.groups()

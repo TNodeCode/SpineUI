@@ -12,7 +12,7 @@ class CentroidTracker:
     """
     Control everything for tracking the spines
     
-    This code was copied from:
+    The code of this class was copied from:
     https://github.com/SaILaIDiN/Spine-Detection-with-CNNs/blob/main/src/spine_detection/utils/tracker.py
     """
 
