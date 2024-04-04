@@ -2,6 +2,10 @@ datasets:
   - name: spine_mixed_train
     paths:
       - ./datasets/spine/train/*.png
+    stacks:
+      patterns:
+        - regex: .*SR052N([0-9]{1})D([0-9]{1})day([0-9]{1})stack([0-9]{1}).*
+          stack_name: "Simon N$1 D$2 day $3 stack $4"
     annotations:
       - name: original
         type: coco

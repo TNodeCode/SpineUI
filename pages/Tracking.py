@@ -4,6 +4,7 @@ import pandas as pd
 import numpy as np
 import json
 from src.draw.bboxes import BBoxDrawer
+from src.config.datasetconfig import DatasetConfiguration
 from src.config.modelconfig import ModelConfiguration
 from src.endpoints.endpoint import ModelEndpoint
 from src.draw.image_loader import ImageLoader
@@ -42,6 +43,12 @@ tracked_objects = CentroidTracker.stack_tracking(stack_bboxes)
 
 st.title("Object Tracking")
 
+selected_dataset = st.selectbox("Select Dataset", DatasetConfiguration.get_dataset_names())
+
+if selected_dataset:
+    stacks = DatasetConfiguration.get_dataset_stacks(dataset_name=selected_dataset)
+    stack_names = stacks.keys()
+    selected_stack = st.selectbox("Select Stack", stack_names)
 
 # Read Gantt chart data from a CSV file or create a sample DataFrame
 # Replace this with your own data source

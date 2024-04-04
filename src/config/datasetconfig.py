@@ -1,5 +1,6 @@
 import yaml
 import glob
+import re
 
 
 class DatasetConfiguration:
@@ -41,6 +42,59 @@ class DatasetConfiguration:
         """
         config = DatasetConfiguration.read_config_file()
         return list(map(lambda x: x['name'], config['datasets']))
+    
+
+    @staticmethod
+    def get_dataset_config(dataset_name: str) -> object:
+        """
+        Get dataset configuration object
+
+        Parameters:
+            dataset_name: The name of the dataset in the configuration file
+
+        Return:
+            dataset configuration object
+        """
+        datasets = DatasetConfiguration.get_available_datasets()
+        dataset = list(filter(lambda x: x['name'] == dataset_name, datasets))[0]
+        return dataset
+
+    
+    @staticmethod
+    def get_dataset_stacks(dataset_name: str) -> object:
+        """
+        Get all stacks of a dataset
+
+        Parameters:
+            dataset_name: The name of the dataset in the configuration file
+
+        Return:
+            An objject containing dataset stack entities
+        """
+        dataset = DatasetConfiguration.get_dataset_config(dataset_name=dataset_name)
+        image_paths = DatasetConfiguration.get_dataset_image_paths(dataset_name=dataset_name)
+        dataset_stacks = {}
+        for image_path in image_paths:
+            for pattern in dataset['stacks']['patterns']:
+                # Check if the image path matches the pattern
+                matches = re.match(pattern=pattern['regex'], string=image_path)
+                # If there is no match we can continue
+                if matches is None:
+                    print("NO MATCHES", pattern["regex"], image_path)
+                    continue
+                # Get all groups of the regex match
+                groups = matches.groups()
+                # Build the name of the stack based on the groups
+                stack_name = pattern['stack_name']
+                for i, group_name in enumerate(groups):
+                    stack_name = stack_name.replace("$"+str(i+1), group_name)
+                # Create new stack entity if it does not exist
+                if stack_name not in dataset_stacks.keys():
+                    dataset_stacks |= {stack_name: DatasetStackEntity(name=stack_name, image_paths=[])}
+                # Add image path to the stack
+                dataset_stacks[stack_name].add_image_path(image_path)
+        return dataset_stacks
+
 
     @staticmethod
     def get_dataset_image_paths(dataset_name: str) -> list[str]:
@@ -127,3 +181,28 @@ class DatasetConfiguration:
         for path in annotation_obj['paths']:
             image_paths = image_paths + glob.glob(path)
         return image_paths
+
+
+class DatasetStackEntity:
+    """
+    This class is a data class that represents a stack of images
+    """
+    def __init__(self, name: str, image_paths: str) -> None:
+        """
+        Constructor
+
+        Parameters:
+            name: stack name
+            image_paths: paths of images belonging to this stack
+        """
+        self.name = name
+        self.image_paths = image_paths
+
+    def add_image_path(self, image_path: str):
+        """
+        Add an image path to the stack
+
+        Parameters:
+            image_path: Path of an image
+        """
+        self.image_paths.append(image_path)
