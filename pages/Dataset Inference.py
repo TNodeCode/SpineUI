@@ -9,13 +9,13 @@ from src.endpoints.endpoint import ModelEndpoint
 from src.draw.image_loader import ImageLoader
 
 
-def send_image(url: str, image_file):
+def send_image(url: str, image_file, model_id: str):
     # Create the HTTP request
-    url = f"{url}/image_inference"
+    url = f"{url}/image_inference/{model_id}"
     files = {"file": image_file}
 
     with st.spinner("Performing inference ..."):
-        response = requests.post(url, files=files)
+        response = requests.post(url, data={"model_id": model_id}, files=files)
 
     # Check if the request was successful
     if response.status_code == 200:
@@ -90,7 +90,7 @@ def view_dataset_upload():
                 progress_text.text(f"Image {i+1} / {len(paths)}")
                 with open(path, "rb") as image_file:
                     # Call the function to send the image
-                    bboxes = send_image(endpoint['url'], image_file)
+                    bboxes = send_image(url=endpoint['url'], image_file=image_file, model_id=selected_model)
                     df_boxes_new = pd.DataFrame(bboxes)
                     update_detections(model_name=selected_model, dataset_name=selected_dataset, new_df=df_boxes_new)
 

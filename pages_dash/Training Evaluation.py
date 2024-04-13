@@ -4,6 +4,8 @@ import dash_bootstrap_components as dbc
 import pandas as pd
 import os
 
+dash.register_page(__name__, path='/training_evaluation')
+
 # Set the path to the data directory
 data_dir = "./training_metrics"
 
@@ -11,10 +13,10 @@ data_dir = "./training_metrics"
 csv_files = [f for f in os.listdir(data_dir) if f.endswith('.csv')]
 
 # Initialize the Dash app
-app = dash.Dash(__name__, external_stylesheets=[dbc.themes.LUMEN])
+#app = dash.Dash(__name__, external_stylesheets=[dbc.themes.LUMEN])
 
 # Define the layout of the app
-app.layout = html.Div([
+layout = html.Div([
     dbc.Container([
         dbc.Row([
             html.H3("Comparison of model training metrics for different training iterations"),
@@ -50,7 +52,7 @@ app.layout = html.Div([
 ])
 
 # Define callback functions
-@app.callback(
+@dash.callback(
     dash.dependencies.Output('line-chart-map50', 'figure'),
     dash.dependencies.Output('line-chart-precision', 'figure'),
     dash.dependencies.Output('line-chart-recall', 'figure'),
@@ -58,57 +60,54 @@ app.layout = html.Div([
 )
 def update_line_charts(csv_files):
     dfs = []
-    figure_data_map50 = []
-    figure_data_precision = []
-    figure_data_recall = []
+    figure_data_ap = []
+    figure_data_ar = []
+    figure_data_f1 = []
 
     # Read the selected CSV files
     for i, csv_file in enumerate(csv_files):
         dfs.append(pd.read_csv(os.path.join(data_dir, csv_file)))
-        figure_data_map50.append({
+        figure_data_ap.append({
             'x': dfs[i].index,
-            'y': dfs[i]['metrics/mAP_0.5'],
+            'y': dfs[i]['ap'],
             'name': csv_file
         })
-        figure_data_precision.append({
+        figure_data_ar.append({
             'x': dfs[i].index,
-            'y': dfs[i]['metrics/precision'],
+            'y': dfs[i]['ar'],
             'name': csv_file
         })
-        figure_data_recall.append({
+        figure_data_f1.append({
             'x': dfs[i].index,
-            'y': dfs[i]['metrics/recall'],
+            'y': dfs[i]['f1'],
             'name': csv_file
         })
     
     
     # Create line charts
     figure_map50 = {
-        'data': figure_data_map50,
+        'data': figure_data_ap,
         'layout': {
-            'title': f"map50 scores during training",
+            'title': f"AP scores during training",
             'xaxis': {'title': 'Epoch'},
-            'yaxis': {'title': 'map50'},
+            'yaxis': {'title': 'AP'},
         }
     }
     figure_precision = {
-        'data': figure_data_precision,
+        'data': figure_data_ar,
         'layout': {
-            'title': f"Precision during training",
+            'title': f"AR during training",
             'xaxis': {'title': 'Epoch'},
-            'yaxis': {'title': 'precision'},
+            'yaxis': {'title': 'AR'},
         }
     }
     figure_recall = {
-        'data': figure_data_recall,
+        'data': figure_data_f1,
         'layout': {
-            'title': f"Recall during training",
+            'title': f"F1 score during training",
             'xaxis': {'title': 'Epoch'},
-            'yaxis': {'title': 'recall'},
+            'yaxis': {'title': 'F1'},
         }
     }
     
     return figure_map50, figure_precision, figure_recall
-# Run the app
-if __name__ == '__main__':
-    app.run_server(debug=True)
