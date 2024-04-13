@@ -6,8 +6,22 @@ services:
     volumes:
       - ./config:/app/config
       - ./datasets:/app/datasets
+      - ./detections:/app/detections
+      - ./training_metrics:/app/training_metrics
     networks:
       - app
+  dash:
+    image: tnodecode/spineui
+    ports:
+      - 8050:8050
+    volumes:
+      - ./config:/app/config
+      - ./datasets:/app/datasets
+      - ./detections:/app/detections
+      - ./training_metrics:/app/training_metrics
+    networks:
+      - app
+    command: ['python', 'app_dash.py']
   yolo:
     image: tnodecode/yolo
     hostname: yolo
