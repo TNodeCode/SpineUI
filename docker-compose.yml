@@ -1,5 +1,11 @@
 services:
-  ui:
+  nginx:
+    image: tnodecode/spineui-nginx
+    ports:
+      - 8080:80
+    networks:
+      - app
+  streamlit:
     image: tnodecode/spineui
     ports:
       - 8501:8501
@@ -26,7 +32,7 @@ services:
     image: tnodecode/yolo
     hostname: yolo
     ports:
-      - 8080:80
+      - 8081:80
     volumes:
       - ./models/yolov8x:/app/models
     networks:
