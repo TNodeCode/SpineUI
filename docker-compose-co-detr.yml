@@ -1,0 +1,8 @@
+services:
+  yolo:
+    image: tnodecode/spine-co-detr
+    hostname: spine-co-detr
+    ports:
+      - 8083:80
+    volumes:
+      - ./models/yolov8x:/app/models

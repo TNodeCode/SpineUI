@@ -1,0 +1,8 @@
+services:
+  yolo:
+    image: tnodecode/yolo
+    hostname: yolo
+    ports:
+      - 8081:80
+    volumes:
+      - ./models/yolov8x:/app/models

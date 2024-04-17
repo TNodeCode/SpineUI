@@ -5,37 +5,10 @@ import globox
 from os.path import basename
 from PIL import Image, ImageDraw
 from src.config.datasetconfig import DatasetConfiguration
+from src.config.dataset_annotations import DatasetAnnotations
 from src.datasets.masks import Masks
 from src.util.detection import Detection
 from src.views.pagination import Pagination
-
-
-def get_mask_detections(dataset_name: str, annotation_name: str, selected_filename: str):
-    # Get all mask image paths that belong to a dataset
-    mask_images = DatasetConfiguration.get_dataset_mask_image_paths(
-        dataset_name=dataset_name,
-        annotation_name=annotation_name
-    )
-    # Get mask image paths
-    mask_image_paths = list(filter(lambda x: basename(selected_filename) in x, mask_images))
-    # Create detection objects
-    detections = Masks.mask_images_to_detection(mask_image_paths)
-    return detections
-
-
-def get_coco_detections(annotation_file: str, selected_filename: str):
-    coco = globox.AnnotationSet.from_coco(file_path=annotation_file)
-    annotations = list(coco)
-    annotation = list(filter(lambda x: basename(x.image_id) == basename(selected_filename), annotations))[0]
-    bboxes = np.array(list(map(lambda b: [b.xmin, b.ymin, b.xmax, b.ymax], annotation.boxes)))
-    return Detection.from_bboxes(bboxes)
-
-
-def get_detections(annotation_obj: object, dataset_name: str, selected_filename: str):
-    if annotation_obj['type'] == 'coco':
-        return get_coco_detections(annotation_file=annotation_obj['paths'][0], selected_filename=selected_filename)
-    elif annotation_obj['type'] == 'masks':
-        return get_mask_detections(dataset_name=dataset_name, annotation_name=annotation_obj['name'], selected_filename=selected_filename)
 
 
 def view_dataset_inspection():
@@ -99,8 +72,8 @@ def view_dataset_inspection():
     )
 
     # Create detections objects
-    detections_1 = get_detections(annotation_obj=annotation_obj_1, dataset_name=dataset_name, selected_filename=selected_filename)
-    detections_2 = get_detections(annotation_obj=annotation_obj_2, dataset_name=dataset_name, selected_filename=selected_filename)
+    detections_1 = DatasetAnnotations.get_detections(annotation_obj=annotation_obj_1, dataset_name=dataset_name, filename=selected_filename)
+    detections_2 = DatasetAnnotations.get_detections(annotation_obj=annotation_obj_2, dataset_name=dataset_name, filename=selected_filename)
 
     pagination.update_selected_index(selected_filename)
 

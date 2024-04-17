@@ -133,13 +133,13 @@ class DatasetConfiguration:
     @staticmethod
     def get_dataset_annotation(dataset_name: str, annotation_name: str) -> object:
         """
-        Get annotation configurations of a dataset
+        Get single annotation configuration of a dataset
 
         Parameters:
             dataset_name: The name of the dataset in the configuration file
 
         Return:
-            A list of all annotation configurations
+            Single annotation configuration
         """
         annotations = DatasetConfiguration.get_dataset_annotations(dataset_name=dataset_name)
         annotation_obj = list(filter(lambda x: x['name'] == annotation_name, annotations))[0]
@@ -180,6 +180,66 @@ class DatasetConfiguration:
         for path in annotation_obj['paths']:
             image_paths = image_paths + glob.glob(path)
         return image_paths
+    
+
+    @staticmethod
+    def get_dataset_detections(dataset_name: str) -> list[object]:
+        """
+        Get detection configurations of a dataset
+
+        Parameters:
+            dataset_name: The name of the dataset in the configuration file
+
+        Return:
+            A list of all detection configurations
+        """
+        datasets = DatasetConfiguration.get_available_datasets()
+        dataset = list(filter(lambda x: x['name'] == dataset_name, datasets))[0]
+        if "detections" in dataset.keys():
+            return dataset['detections']
+        return []
+    
+
+    @staticmethod
+    def get_detection_csv_files(dataset_name: str, detection_name: str) -> list[str]:
+        """
+        Get all files for a given 
+
+        Parameters:
+            dataset_name: The name of the dataset in the configuration file
+            detection_name: The detection name
+
+        Return:
+            List of all detection files        
+        """
+        detection_obj = DatasetConfiguration.get_dataset_detection(
+            dataset_name=dataset_name,
+            detection_name=detection_name
+        )
+        if detection_obj is None:
+            return []
+        paths = []
+        for path in detection_obj['paths']:
+            paths = paths + glob.glob(path)
+        return paths
+    
+
+    @staticmethod
+    def get_dataset_detection(dataset_name: str, detection_name: str) -> object:
+        """
+        Get single detection configuration of a dataset
+
+        Parameters:
+            dataset_name: The name of the dataset in the configuration file
+
+        Return:
+            Single detection configuration
+        """
+        detections = DatasetConfiguration.get_dataset_detections(dataset_name=dataset_name)
+        if not len(detections):
+            return None
+        detection_obj = list(filter(lambda x: x['name'] == detection_name, detections))[0]
+        return detection_obj
 
 
 class DatasetStackEntity:

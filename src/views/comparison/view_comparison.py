@@ -1,22 +1,89 @@
+import os
 import streamlit as st
 import numpy as np
 import pandas as pd
 from PIL import Image, ImageDraw
+from src.config.datasetconfig import DatasetConfiguration
+from src.config.dataset_annotations import DatasetAnnotations
+
 from src.views.pagination import Pagination
 
 
-def view_model_comparison(basepath: str, cvs_files: list[str]):
+def view_model_comparison():
+    # Select a dataset
+    dataset_name = st.selectbox(
+        "Select Dataset",
+        DatasetConfiguration.get_dataset_names()
+    )
+
+    # Get paths of all images belonging to the selected dataset
+    image_paths = DatasetConfiguration.get_dataset_image_paths(dataset_name=dataset_name)
+    # Contains mappings from image file names to the directories where they are stored
+    image_path_mappings = {x[1] : x[0] for x in list(map(lambda p: os.path.split(p), image_paths))}
+
+    detection_objs = DatasetConfiguration.get_dataset_detections(dataset_name=dataset_name)
+    
+    # if there are no CSV files show a warning and return
+    if len(detection_objs) < 1:
+        st.warning('No detections available for this dataset', icon="⚠️")
+        return
+
+    detection_names = list(map(lambda x: x["name"], detection_objs))
+
+    # Display columns for comparing detections
     csv_col1, csv_col2 = st.columns(2)
     with csv_col1:
-        csv_filename_1 = st.selectbox(
-            'Select first CSV file',
-            cvs_files
+        detection_name_1 = st.selectbox(
+            "Select Detection Model 1",
+            detection_names
         )
+        # Get all available CSV files
+        csv_files_1 = DatasetConfiguration.get_detection_csv_files(
+            dataset_name=dataset_name,
+            detection_name=detection_name_1
+        )
+        # if there are no CSV files show a warning and return
+        if len(csv_files_1) < 1:
+            st.warning('No CSV detection result files found', icon="⚠️")
+        else:
+            csv_filename_1 = st.selectbox(
+                'Select first CSV file',
+                csv_files_1
+            )
+            show_gt_bboxes_1 = st.checkbox(
+                "Show Ground Truth Left",
+                True
+            )
+            show_pred_bboxes_1 = st.checkbox(
+                "Show Predictions Left",
+                True
+            )
     with csv_col2:
-        csv_filename_2 = st.selectbox(
-            'Select second CSV file',
-            cvs_files
+        detection_name_2 = st.selectbox(
+            "Select Detection Model 2",
+            detection_names
         )
+        # Get all available CSV files
+        csv_files_2 = DatasetConfiguration.get_detection_csv_files(
+            dataset_name=dataset_name,
+            detection_name=detection_name_2
+        )
+        # if there are no CSV files show a warning and return
+        if len(csv_files_1) < 1:
+            st.warning('No CSV detection result files found', icon="⚠️")
+        else:
+            csv_filename_2 = st.selectbox(
+                'Select second CSV file',
+                csv_files_2
+            )
+            show_gt_bboxes_2 = st.checkbox(
+                "Show Ground Truth Right",
+                True
+            )
+            show_pred_bboxes_2 = st.checkbox(
+                "Show Predictions Right",
+                True
+            )
 
     # Load the DataFrame
     df_1 = pd.read_csv(csv_filename_1)
@@ -35,6 +102,15 @@ def view_model_comparison(basepath: str, cvs_files: list[str]):
         index=pagination.selected_index,
     )
 
+    # Select a ground truth annotation
+    annotations = DatasetConfiguration.get_dataset_annotations(dataset_name)
+    annotation_name_1 = st.selectbox(
+        'Select Ground Truth',
+        list(map(lambda x: x['name'], annotations))
+    )
+    annotation = DatasetConfiguration.get_dataset_annotation(dataset_name=dataset_name, annotation_name=annotation_name_1)
+
+    gt_annotations = DatasetAnnotations.get_detections(annotation_obj=annotation, dataset_name=dataset_name, filename=selected_filename)
     pagination.update_selected_index(selected_filename)
 
     # Create buttons for selecting previous and next images
@@ -47,6 +123,7 @@ def view_model_comparison(basepath: str, cvs_files: list[str]):
     filtered_df_2 = df_2[df_2['filename'] == selected_filename]
 
     # Load the image corresponding to the selected filename
+    basepath = image_path_mappings[selected_filename]
     image_1 = Image.open(f"{basepath}/{selected_filename}").resize((512, 512))
     image_1 = image_1.convert(mode='RGB')
     image_2 = image_1.copy()
@@ -63,31 +140,51 @@ def view_model_comparison(basepath: str, cvs_files: list[str]):
         # Add more class-color mappings as needed
     }
 
-    # Draw bounding boxes and labels on the image
-    for _, row in filtered_df_1.iterrows():
-        if row['score'] < 0.5:
-            continue
-        class_name = row['class']
-        xmin = row['xmin']
-        ymin = row['ymin']
-        xmax = row['xmax']
-        ymax = row['ymax']
-        color = color_mappings.get(class_name, 'yellow')  # Default to yellow if class color not defined
-        draw_1.rectangle([(xmin, ymin), (xmax, ymax)], outline=color, width=2)
-        #draw.text((xmin, ymin-15), class_name, fill=color)
+    # Draw ground truth bounding boxes and labels on the image
+    if show_gt_bboxes_1:
+        for xmin, ymin, xmax, ymax in gt_annotations.xyxy:
+            xmin = int(xmin)
+            ymin = int(ymin)
+            xmax = int(xmax)
+            ymax = int(ymax)
+            color = 'green'  # Default to yellow if class color not defined
+            draw_1.rectangle([(xmin, ymin), (xmax, ymax)], outline=color, width=2)
 
     # Draw bounding boxes and labels on the image
-    for _, row in filtered_df_2.iterrows():
-        if row['score'] < 0.5:
-            continue
-        class_name = row['class']
-        xmin = row['xmin']
-        ymin = row['ymin']
-        xmax = row['xmax']
-        ymax = row['ymax']
-        color = color_mappings.get(class_name, 'yellow')  # Default to yellow if class color not defined
-        draw_2.rectangle([(xmin, ymin), (xmax, ymax)], outline=color, width=2)
-        #draw.text((xmin, ymin-15), class_name, fill=color)
+    if show_pred_bboxes_1:
+        for _, row in filtered_df_1.iterrows():
+            if row['score'] < 0.5:
+                continue
+            class_name = row['class_name']
+            xmin = row['xmin']
+            ymin = row['ymin']
+            xmax = row['xmax']
+            ymax = row['ymax']
+            color = color_mappings.get(class_name, 'yellow')  # Default to yellow if class color not defined
+            draw_1.rectangle([(xmin, ymin), (xmax, ymax)], outline=color, width=2)
+
+    # Draw ground truth bounding boxes and labels on the image
+    if show_gt_bboxes_2:
+        for xmin, ymin, xmax, ymax in gt_annotations.xyxy:
+            xmin = int(xmin)
+            ymin = int(ymin)
+            xmax = int(xmax)
+            ymax = int(ymax)
+            color = 'green'  # Default to yellow if class color not defined
+            draw_2.rectangle([(xmin, ymin), (xmax, ymax)], outline=color, width=2)
+
+    # Draw bounding boxes and labels on the image
+    if show_pred_bboxes_2:
+        for _, row in filtered_df_2.iterrows():
+            if row['score'] < 0.5:
+                continue
+            class_name = row['class_name']
+            xmin = row['xmin']
+            ymin = row['ymin']
+            xmax = row['xmax']
+            ymax = row['ymax']
+            color = color_mappings.get(class_name, 'yellow')  # Default to yellow if class color not defined
+            draw_2.rectangle([(xmin, ymin), (xmax, ymax)], outline=color, width=2)
 
     # Display the image with bounding boxes
     col1, col2 = st.columns(2)

@@ -13,6 +13,10 @@ datasets:
         type: coco
         paths: 
           - ./datasets/spine/annotations/instances_train2017.json
+      - name: sam-b-bboxes-train
+        type: coco
+        paths: 
+          - ./datasets/spine/annotations/train2017_sam_b.json
       - name: sam-b
         type: masks
         paths: 
@@ -21,6 +25,17 @@ datasets:
         type: masks
         paths: 
           - ./datasets/spine/train-sam-l/*
+    detections:
+      - name: Cascade RCNN
+        paths:
+          - ./detections/cascade_rcnn/cascade_rcnn_run*_spine_mixed_train.csv
+      - name: Faster RCNN
+        paths:
+          - ./detections/faster_rcnn/faster_rcnn_run*_spine_mixed_train.csv
+          - ./detections/cascade_rcnn/cascade_rcnn_run*_spine_mixed_train.csv
+      - name: Co-DETR
+        paths:
+          - ./detections/co_detr_old/co_detr_co_dino_5scale_swin_large_16e_o365tococo_spine_mixed_epoch_*_train.csv
   - name: spine_mixed_val
     paths:
       - ./datasets/spine/val/*.png
@@ -29,6 +44,10 @@ datasets:
         type: coco
         paths: 
           - ./datasets/spine/annotations/instances_val2017.json
+      - name: sam-b-bboxes-val
+        type: coco
+        paths: 
+          - ./datasets/spine/annotations/val2017_sam_b.json
       - name: sam-b
         type: masks
         paths: 
@@ -37,6 +56,16 @@ datasets:
         type: masks
         paths: 
           - ./datasets/spine/val-sam-l/*
+    detections:
+      - name: Cascade RCNN
+        paths:
+          - ./detections/cascade_rcnn/cascade_rcnn_run*_spine_mixed_val.csv
+      - name: Faster RCNN
+        paths:
+          - ./detections/faster_rcnn/faster_rcnn_run*_spine_mixed_val.csv
+      - name: Co-DETR
+        paths:
+          - ./detections/co_detr_old/co_detr_co_dino_5scale_swin_large_16e_o365tococo_spine_mixed_epoch_*_val.csv
   - name: spine_mixed_test
     paths:
       - ./datasets/spine/test/*.png
@@ -45,6 +74,10 @@ datasets:
         type: coco
         paths: 
           - ./datasets/spine/annotations/instances_test2017.json
+      - name: sam-b-bboxes-test
+        type: coco
+        paths: 
+          - ./datasets/spine/annotations/test2017_sam_b.json
       - name: sam-b
         type: masks
         paths: 
@@ -53,6 +86,16 @@ datasets:
         type: masks
         paths: 
           - ./datasets/spine/test-sam-l/*
+    detections:
+      - name: Cascade RCNN
+        paths:
+          - ./detections/cascade_rcnn/cascade_rcnn_run*_spine_mixed_test.csv
+      - name: Faster RCNN
+        paths:
+          - ./detections/faster_rcnn/faster_rcnn_run*_spine_mixed_test.csv
+      - name: Co-DETR
+        paths:
+          - ./detections/co_detr_old/co_detr_co_dino_5scale_swin_large_16e_o365tococo_spine_mixed_epoch_*_test.csv
   - name: spine_altug_train
     paths:
       - ./datasets/spine/train/aidv*.png

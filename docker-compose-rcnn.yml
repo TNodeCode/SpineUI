@@ -1,0 +1,8 @@
+services:
+  yolo:
+    image: tnodecode/spine-rcnn
+    hostname: spine-rcnn
+    ports:
+      - 8082:80
+    volumes:
+      - ./models/yolov8x:/app/models
