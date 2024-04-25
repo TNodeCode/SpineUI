@@ -5,4 +5,4 @@ services:
     ports:
       - 8083:80
     volumes:
-      - ./models/yolov8x:/app/models
+      - ./models/detr:/app/models

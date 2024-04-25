@@ -10,7 +10,7 @@ import os
 dash.register_page(__name__, path='/model_evaluation')
 
 # Set the path to the data directory
-data_dir = "./detections"
+data_dir = "./detections/co_detr_old"
 
 # Get the list of CSV files in the data directory
 csv_files = [f for f in os.listdir(data_dir) if f.endswith('.csv')]
@@ -55,11 +55,11 @@ layout = html.Div([
 def update_scatter_plot(csv_file_1, csv_file_2):
     print("CSV_FILE", csv_file_1, csv_file_2)
     
-    df_1 = pd.read_csv("./detections/" + csv_file_1)
+    df_1 = pd.read_csv(data_dir + "/" + csv_file_1)
     df_1["height"] = df_1["ymax"] - df_1["ymin"]
     df_1["width"] = df_1["xmax"] - df_1["xmin"]
     
-    df_2 = pd.read_csv("./detections/" + csv_file_2)
+    df_2 = pd.read_csv(data_dir + "/" + csv_file_2)
     df_2["height"] = df_2["ymax"] - df_2["ymin"]
     df_2["width"] = df_2["xmax"] - df_2["xmin"]
 
