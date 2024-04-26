@@ -1,4 +1,4 @@
-name: Build and Publish CO-DETR Docker Image
+name: Build and Publish SpineUI Image
 
 on:
   push:
