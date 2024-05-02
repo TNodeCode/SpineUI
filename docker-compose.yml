@@ -28,6 +28,16 @@ services:
     networks:
       - app
     command: ['python', 'app_dash.py']
+  mmdet:
+    image: tnodecode/spine-co-detr
+    hostname: mmdet
+    ports:
+      - 8081:80
+    volumes:
+      - ./available_models.yml:/app/available_models.yml
+      - ./models/mmcv:/app/runs
+    networks:
+      - app
 
 networks:
   app:

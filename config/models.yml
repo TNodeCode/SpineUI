@@ -1,9 +1,5 @@
 models:
   - name: Yolo Docker
     url: http://yolo:80
-  - name: Yolo Local
-    url: http://localhost:8000
-  - name: Cascade RCNN + Faster RCNN Local
-    url: http://localhost:8000
-  - name: MMCV Models Local
-    url: http://localhost:8083
+  - name: MMDET Docker
+    url: http://mmdet:80
