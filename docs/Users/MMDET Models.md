@@ -81,7 +81,7 @@ Each entry needs to have a unique key like `faster-rcnn-r50` in this example. Th
 
 The REST-API that was built around the MMDET library supports a documentation format called OpenAPI. OpenAPI is a web interface that can be used for testing a REST-API. When the docker container is started this OpenAPI interface will be available at http://localhost:8081/docs.
 
-<img src="images/openapi/openapi_docs.png" />
+<img src="/SpineUI/images/openapi/openapi_docs.png" />
 
 ### Get all available models
 
@@ -89,17 +89,17 @@ If you have added all your available model weight files to the `available_models
 
 You should then see the response of the REST-API which should be a list of all your keys that are defined in `available_models.yml`.
 
-<img src="images/openapi/available_models_result.png" />
+<img src="/SpineUI/images/openapi/available_models_result.png" />
 
 ### Testing model inference
 
 There is a second endpoint the REST-API provides that can accept an image and returns a list of bounding boxes. Click on the `POST /image_inference/{model_id}` section, then on `Try it out`. In the `model_id`field enter one of the names that were returned by the `/available_models` endpoint, which should correspond to the keys in `available_models.yml`. Next click on the file input and select one image that should be sent through the model. Finally click on the `Execute` button.
 
-<img src="images/openapi/inference_endpoint.png" />
+<img src="/SpineUI/images/openapi/inference_endpoint.png" />
 
 After a few seconds the model should return a list of detected bounding boxes which could look like this:
 
-<img src="images/openapi/inference_endpoint_results.png" />
+<img src="/SpineUI/images/openapi/inference_endpoint_results.png" />
 
 ## Using the MMDET models in SpineUI
 
