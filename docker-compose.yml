@@ -1,6 +1,6 @@
 services:
   nginx:
-    image: nginx
+    image: tnodecode/spineui-nginx
     ports:
       - 8080:80
     networks:
@@ -28,15 +28,6 @@ services:
     networks:
       - app
     command: ['python', 'app_dash.py']
-  yolo:
-    image: tnodecode/yolo
-    hostname: yolo
-    ports:
-      - 8081:80
-    volumes:
-      - ./models/yolov8x:/app/models
-    networks:
-      - app
 
 networks:
   app:

@@ -1,8 +1,9 @@
 services:
-  yolo:
+  co-detr:
     image: tnodecode/spine-co-detr
     hostname: spine-co-detr
     ports:
       - 8083:80
     volumes:
-      - ./models/detr:/app/models
+      - ./available_models.yml:/app/available_models.yml
+      - ./models/mmcv:/app/runs

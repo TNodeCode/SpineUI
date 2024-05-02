@@ -5,3 +5,5 @@ models:
     url: http://localhost:8000
   - name: Cascade RCNN + Faster RCNN Local
     url: http://localhost:8000
+  - name: MMCV Models Local
+    url: http://localhost:8083
