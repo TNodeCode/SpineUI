@@ -38,6 +38,8 @@ class ImageLoader:
             PIL image object
         """
         # Load the image corresponding to the selected filename
-        image = Image.open(image).resize(image_shape)
+        image = Image.open(image)
+        if image_shape is not None:
+            image = image.resize(image_shape)
         image = image.convert(mode='RGB')
         return image

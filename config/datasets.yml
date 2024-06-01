@@ -1,4 +1,12 @@
 datasets:
+  - name: spine_tracking
+    paths:
+      - ./datasets/v853/220321/t1/*.png
+      - ./datasets/v853/220321/t2/*.png
+      - ./datasets/v853/220324/t1/*.png
+      - ./datasets/v853/220324/t2/*.png
+    annotations:
+      - name: nonane
   - name: spine_mixed_train
     paths:
       - ./datasets/spine/train/*.png

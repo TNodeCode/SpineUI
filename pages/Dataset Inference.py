@@ -96,7 +96,7 @@ def view_dataset_upload():
 
                     # Render bounding boxes into image
                     image_bboxes = BBoxDrawer.draw_bboxes(
-                        image=ImageLoader.load_from_uploaded_file(image_file),
+                        image=ImageLoader.load_from_uploaded_file(image_file, image_shape=None),
                         bboxes=bboxes,
                         min_score=min_score
                     )

@@ -3,3 +3,5 @@ models:
     url: http://yolo:80
   - name: MMDET Docker
     url: http://mmdet:80
+  - name: MMDET Local
+    url: http://localhost:80
