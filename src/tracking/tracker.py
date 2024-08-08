@@ -42,6 +42,7 @@ class CentroidTracker:
         # been marked as "disappeared", respectively
         self.nextObjectID = 0
         self.objects = OrderedDict()
+        self.object_traces = OrderedDict()
         self.beforeObjects = OrderedDict()
         self.disappeared = OrderedDict()
         self.appeared = OrderedDict()
@@ -69,6 +70,7 @@ class CentroidTracker:
         # when registering an object we use the next available object
         # ID to store the centroid
         self.objects[self.nextObjectID] = centroid
+        self.object_traces[self.nextObjectID] = [centroid]
         self.disappeared[self.nextObjectID] = 0
         self.appeared[self.nextObjectID] = 1
         self.nextObjectID += 1
@@ -204,6 +206,7 @@ class CentroidTracker:
                     # set its new centroid, and reset the disappeared
                     objectID = objectIDs[row]
                     self.objects[objectID] = inputCentroids[col]
+                    self.object_traces[objectID].append(inputCentroids[col])
                     self.appeared[objectID] += 1
                     self.disappeared[objectID] = 0
 
@@ -236,7 +239,13 @@ class CentroidTracker:
         return self.getObjects()
     
     @staticmethod
-    def stack_tracking(stack_bboxes: np.ndarray):
+    def stack_tracking(
+        stack_bboxes: np.ndarray,
+        minAppeared: int = 1,
+        maxDisappeared: int = 1,
+        maxDiff=0.7,
+        iomThresh=0.3,
+    ):
         """
         Perform tracking on a stack of images
 
@@ -244,17 +253,21 @@ class CentroidTracker:
             stack_bboxes: 3D array of bounding boxes
                           first dim = images
                           second dim = list of bounding boxes per image
-                          third dim = single bounding box in the format [x1, y1, x2, y2, conf] 
+                          third dim = single bounding box in the format [x1, y1, x2, y2, conf]
+            minAppeared: minimum number of appearances that an object needs to be recognized as an object 
+            maxDisappeared: maximum number of frames that an object is allowed to disappear
+            maxDiff: max pixel difference for being identified as same object
+            iomThresh: Maximum IoM threshold between to frames for an object
 
         Return:
             A dictionary containing all objects with the first and last frame they appeared in
         """
         # TODO add arguments to method so that the user can chage these parameters
         ct = CentroidTracker(
-            minAppeared=1,
-            maxDisappeared=1,
-            maxDiff=0.7,
-            iomThresh=0.3,
+            minAppeared=minAppeared,
+            maxDisappeared=maxDisappeared,
+            maxDiff=maxDiff,
+            iomThresh=iomThresh,
         )
 
         # Save in which frame objects wre first and last seen
@@ -272,11 +285,84 @@ class CentroidTracker:
         for object_id in ct.objects.keys():
             objects_last_appearance[object_id] = objects_first_appearance[object_id] + ct.appeared[object_id] - 1
 
-        return {
+        data =  {
             "object_ids": ct.objects.keys(),
+            "object_traces": ct.object_traces,
             "first_appearance": objects_first_appearance,
             "last_appearance": objects_last_appearance,
         }
+
+        return data
+    
+
+    @staticmethod
+    def generate_gantt_df(tracking_results: dict):
+        """
+        Convert tracking results into a pandas dataframe which can be displayed as a Gantt chart
+
+        Args:
+            tracking_results: the results of the tracking algorithm
+
+        Return:
+            A pandas dataframe containing task names, strat and finish points
+        """
+        df_gantt = pd.DataFrame({
+            'Task': list(tracking_results['object_ids']),
+            'Start': list(map(lambda x: x[1], tracking_results['first_appearance'].items())),
+            'Finish': list(map(lambda x: x[1], tracking_results['last_appearance'].items()))
+        })
+        return df_gantt
+
+    
+    @staticmethod
+    def get_traces_df(tracking_results: dict, image_paths: list = None):
+        """
+        Turn Gantt dataframe into traces dataframe
+
+        Args:
+            tracking_results: the results of the tracking algorithm
+
+        Return:
+            Dataframe containing bounding boxes with tracking IDs
+        """
+        bboxes = []
+
+        # Iterate over all detected objects
+        for id in tracking_results['object_ids']:
+            fap = tracking_results['first_appearance'][id]
+            # Iterate over all bounding boxes that belong to an object
+            for i, bbox in enumerate(tracking_results['object_traces'][id]):
+                frame = fap+i
+                bbox = {
+                    'object_id': int(id),
+                    'frame': int(frame),
+                    'cx': int(bbox[0]),
+                    'cy': int(bbox[1]),
+                    'w': int(bbox[2]),
+                    'h': int(bbox[3]),
+                    'score': float(bbox[4])
+                }
+                if image_paths is not None:
+                    bbox |= {'filename': image_paths[frame]}
+                bboxes.append(bbox)
+
+        # Create dataframe
+        df = pd.DataFrame(bboxes)
+        if df.shape[0] > 0:
+            convert_dict = {
+                'object_id': int,
+                'frame': int,
+                'cx': int,
+                'cy': int,
+                'w': int,
+                'h': int,
+            }
+            df = df.astype(convert_dict)
+        return df
+        
+
+
+
 
 
 
