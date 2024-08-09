@@ -5,3 +5,5 @@ dash
 dash-bootstrap-components
 globox
 supervision
+mkdocs
+mkdocs-material
