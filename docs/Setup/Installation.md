@@ -28,8 +28,8 @@ You need to have installed a C++ compier on your machine. This is necessary beca
 First we need to create a new Conda environment.
 
 ```bash
-$ conda create -n spineui python==3.12 pip
-$ conda activate spineui
+$ conda create -n spine python==3.11 pip
+$ conda activate spine
 ```
 
 ### Clone the GitHub Repository
@@ -92,4 +92,4 @@ $ sudo apt-get update && sudo apt-get install -y g++
 
 On Windows machines you need to have instaled the Visual Studio Community edition. You can install a compiler by installing the Microsoft Build Tools on your PC (<a href="https://visualstudio.microsoft.com/de/visual-cpp-build-tools/" target="_blank">Microsoft Build Tools für C++ - Visual Studio</a>). Switch to the “single compoents” tab in the installer and check the option "Windows 11 SDK" (or "Windows 10 SDK" if you are working with Windows 10).
 
-<img src="../images/installation/win11sdk.png" />
+<img src="../../images/installation/win11sdk.png" />
