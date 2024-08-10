@@ -8,17 +8,19 @@ class StackTrackingCommand():
     """
     Command class that performs object tracking on a dataset
     """
-    def __init__(self, dataset_name: str, stack_name: str):
+    def __init__(self, dataset_name: str, stack_name: str, detections_file: str):
         """
         Constructor
 
         Args:
             dataset_name: Name of the dataset the tracking should be performed on
             stack_name: Name of the stack
+            detections_fie: Path to a CSV file with bounding boxes
         """
         self.executed = False
         self.dataset_name = dataset_name
         self.stack_name = stack_name
+        self.detections_file = detections_file
         self.tracking_results = None
         self.df_gantt = None
         self.traces_df = None
@@ -38,7 +40,7 @@ class StackTrackingCommand():
         stack_entity = stacks[self.stack_name]
 
         # Read all detected bounding boxes
-        df_det = pd.read_csv("./detections/faster_rcnn/faster_rcnn_run1_spine_mixed_train.csv") # TODO
+        df_det = pd.read_csv(self.detections_file) # TODO
         stack_bboxes = []
         for filename in stack_entity.image_paths:
             bboxes = df_det[df_det['filename'] == os.path.basename(filename)][["xmin", "ymin", "xmax", "ymax", "score"]].to_numpy()

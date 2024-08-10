@@ -25,7 +25,10 @@ class Detection:
             # 1D integer array representing classes
             self.class_id = np.array(list(map(lambda mask: 0, self.mask)))
         elif self.xyxy is not None:
-            self.class_id = np.zeros(self.xyxy.shape[0]).astype(int)
+            if class_id is not None:
+                self.class_id = class_id
+            else:
+                self.class_id = np.zeros(self.xyxy.shape[0]).astype(int)
         else:
             raise AssertionError("Either bounding boxes or masks must be provided")
         # 1D integer array representing areas of bounding boxes
