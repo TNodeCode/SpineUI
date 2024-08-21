@@ -148,6 +148,8 @@ Here is an example of how this could look like:
 2,2,225,435,14,16,1.0,-1,-1,-1
 ```
 
+You can find more about the MOT17 format here: https://motchallenge.net/instructions/
+
 The file `seqinfo.ini` contains the info about the stack in the following format:
 
 ```
