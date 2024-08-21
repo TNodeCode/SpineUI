@@ -1,3 +1,4 @@
+git+https://github.com/JonathonLuiten/TrackEval.git
 streamlit
 pillow
 pyyaml
@@ -7,3 +8,4 @@ globox
 supervision
 mkdocs
 mkdocs-material
+click

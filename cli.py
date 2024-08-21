@@ -1,6 +1,7 @@
 import pandas as pd
 from src.commands.tracking import StackTrackingCommand
 from src.config.datasetconfig import DatasetConfiguration
+from src.tracking.evaluate import CustomMotDataset
 import click
 
 @click.group()
@@ -45,6 +46,12 @@ def naive_tracking(dataset, detections, output):
     df_traces.to_csv(output, index=False)
 
     print(f"Saved tracking results at {output}")
+
+
+@cli.command()
+def eval_tracking():
+    CustomMotDataset.evaluate()
+
 
 
 if __name__ == '__main__':
