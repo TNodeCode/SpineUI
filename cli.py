@@ -1,3 +1,4 @@
+import os
 import pandas as pd
 from src.commands.tracking import StackTrackingCommand
 from src.config.datasetconfig import DatasetConfiguration
@@ -11,13 +12,14 @@ def cli():
 @cli.command()
 @click.option('--dataset', type=str, required=True, help='Dataset that should be used for object tracking')
 @click.option('--detections', type=click.Path(exists=True, file_okay=True, dir_okay=False), required=True, help='Path to a CSV file containing detections')
-@click.option('--output', type=str, required=True, default='tracking.csv', help='Output file')
-def naive_tracking(dataset, detections, output):
+@click.option('--output-dir', type=str, required=True, default='results_detection', help='Output directory')
+def naive_tracking(dataset: str, detections: str, output_dir: str):
     print("Perform tracking ...")
     # Get all available stacks in the dataset
     stacks = DatasetConfiguration.get_dataset_stacks(dataset_name=dataset)
     stack_names = stacks.keys()
-    dfs = []
+    output_dir = f"{output_dir}/seqmaps/"
+    os.makedirs(output_dir, exist_ok=True)
 
     for stack_id, stack_name in enumerate(stack_names):
         print(f"Stack {stack_id+1}/{len(stack_names)} ({stack_name})", end="")
@@ -27,25 +29,24 @@ def naive_tracking(dataset, detections, output):
             detections_file=detections
         )
         cmd.execute()
-        cmd.traces_df['stack_id'] = stack_id
-        dfs.append(cmd.traces_df)
+        
+        if cmd.traces_df.shape[0] > 0:
+            cmd.traces_df = cmd.traces_df.drop(columns=['filename'])
+            convert_dict = {
+                'frame': int,
+                'object_id': int,
+                'x0': int,
+                'y0': int,
+                'w': int,
+                'h': int,
+            }
+            cmd.traces_df = cmd.traces_df.astype(convert_dict)
+            cmd.traces_df.to_csv(f"{output_dir}/{stack_name}.txt", index=False)
+
         print("\r", end="")
 
-    df_traces = pd.concat(dfs)
 
-    if df_traces.shape[0] > 0:
-        convert_dict = {
-            'object_id': int,
-            'frame': int,
-            'cx': int,
-            'cy': int,
-            'w': int,
-            'h': int,
-        }
-    df_traces = df_traces.astype(convert_dict)
-    df_traces.to_csv(output, index=False)
-
-    print(f"Saved tracking results at {output}")
+    print(f"Saved tracking results at {output_dir}")
 
 
 @cli.command()
