@@ -187,3 +187,14 @@ For each stack a text file with name `<stack_name>.txt` is created in the direct
 ```
 
 The values of `x0`, `y0`. `height`, `width` and `confidence` are those that were predicted by the model. If you have multiple models you can create a directory in `results` for each model.
+
+Tracking metrics can now be computed via the CLI in the following way:
+
+```bash
+python cli.py eval-tracking \
+    --gt-folder data/MOT17/train \
+    --detections results/<model_name>/ \
+    --output-dir tracking-results
+```
+
+After running this command you will find plots and CSV files containing the results in the directory `training-results`. Also detailed information about tracking metrics is printed to the console.
