@@ -1,4 +1,4 @@
-git+https://github.com/JonathonLuiten/TrackEval.git
+git+https://github.com/TNodeCode/TrackEval
 streamlit
 pillow
 pyyaml
