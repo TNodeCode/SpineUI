@@ -334,13 +334,13 @@ class CentroidTracker:
             for i, bbox in enumerate(tracking_results['object_traces'][id]):
                 frame = fap+i
                 bbox = {
-                    'object_id': int(id),
                     'frame': int(frame),
-                    'cx': int(bbox[0]),
-                    'cy': int(bbox[1]),
+                    'object_id': int(id),
+                    'x0': int(bbox[0] - 0.5 * bbox[2]),
+                    'y0': int(bbox[1] - 0.5 * bbox[3]),
                     'w': int(bbox[2]),
                     'h': int(bbox[3]),
-                    'score': float(bbox[4])
+                    'score': float(bbox[4]),
                 }
                 if image_paths is not None:
                     bbox |= {'filename': image_paths[frame]}
@@ -352,8 +352,8 @@ class CentroidTracker:
             convert_dict = {
                 'object_id': int,
                 'frame': int,
-                'cx': int,
-                'cy': int,
+                'x0': int,
+                'y0': int,
                 'w': int,
                 'h': int,
             }

@@ -1,3 +1,4 @@
+git+https://github.com/TNodeCode/TrackEval
 streamlit
 pillow
 pyyaml
@@ -8,3 +9,4 @@ plotly
 supervision
 mkdocs
 mkdocs-material
+click
