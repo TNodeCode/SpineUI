@@ -31,7 +31,12 @@ def naive_tracking(dataset: str, detections: str, output_dir: str):
         cmd.execute()
         
         if cmd.traces_df.shape[0] > 0:
-            cmd.traces_df = cmd.traces_df.drop(columns=['filename'])
+            # Remove columns that are not needed by TrackEval
+            cmd.traces_df = cmd.traces_df.drop(columns=['filename', 'basename','cx','cy'])
+            # Add x, y and z columns
+            cmd.traces_df['x'] = -1
+            cmd.traces_df['y'] = -1
+            cmd.traces_df['z'] = -1
             convert_dict = {
                 'frame': int,
                 'object_id': int,
@@ -41,7 +46,7 @@ def naive_tracking(dataset: str, detections: str, output_dir: str):
                 'h': int,
             }
             cmd.traces_df = cmd.traces_df.astype(convert_dict)
-            cmd.traces_df.to_csv(f"{output_dir}/{stack_name}.txt", index=False)
+            cmd.traces_df.to_csv(f"{output_dir}/{stack_name}.txt", index=False, header=False)
 
         print("\r", end="")
 

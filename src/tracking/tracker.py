@@ -335,7 +335,7 @@ class CentroidTracker:
             for i, bbox in enumerate(tracking_results['object_traces'][id]):
                 frame = fap+i
                 bbox = {
-                    'frame': int(frame),
+                    'frame': int(frame) + 1,
                     'object_id': int(id),
                     'cx': int(bbox[0]),
                     'cy': int(bbox[1]),

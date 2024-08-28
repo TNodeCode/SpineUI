@@ -5,9 +5,7 @@ datasets:
     stacks:
       patterns:
         - regex: .*aid052N([0-9]{1})D([0-9]{1})_tp([0-9]{1,4})_stack([0-9]{1,4})_layer([0-9]{1,4}).*
-          stack_name: "Simon N$1 D$2 day $3 stack $4"
-        - regex: .*aidv853_date([0-9]{2})([0-9]{2})([0-9]{2})_tp([0-9]{1})_stack([0-9]{1})_sub([0-9]{2})_layer([0-9]{3}).*
-          stack_name: "Altug $1-$2-$3 tp $4 stack $5 sub $6 layer $7"
+          stack_name: "aid052N$1D$2_tp$3_stack$4_default_aug_False_epoch_19_theta_0.5_delta_0.1_Test"
     annotations:
       - name: original
         type: coco
@@ -39,6 +37,10 @@ datasets:
   - name: spine_mixed_val
     paths:
       - ./datasets/spine/val/*.png
+    stacks:
+      patterns:
+        - regex: .*aid052N([0-9]{1})D([0-9]{1})_tp([0-9]{1,4})_stack([0-9]{1,4})_layer([0-9]{1,4}).*
+          stack_name: "aid052N$1D$2_tp$3_stack$4_default_aug_False_epoch_19_theta_0.5_delta_0.1_Test"
     annotations:
       - name: original
         type: coco
@@ -69,6 +71,10 @@ datasets:
   - name: spine_mixed_test
     paths:
       - ./datasets/spine/test/*.png
+    stacks:
+      patterns:
+        - regex: .*aid052N([0-9]{1})D([0-9]{1})_tp([0-9]{1,4})_stack([0-9]{1,4})_layer([0-9]{1,4}).*
+          stack_name: "aid052N$1D$2_tp$3_stack$4_default_aug_False_epoch_19_theta_0.5_delta_0.1_Test"
     annotations:
       - name: original
         type: coco
