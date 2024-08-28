@@ -6,6 +6,7 @@ class CustomMotDataset(trackeval.datasets.MotChallenge2DBox):
     def __init__(self, config=None):
         super(CustomMotDataset, self).__init__(config=config)
         self.valid_class_numbers.extend([0])
+        self.valid_classes = ['spine']
 
     @staticmethod
     def evaluate(
@@ -32,6 +33,8 @@ class CustomMotDataset(trackeval.datasets.MotChallenge2DBox):
             'GT_FOLDER': gt_folder,              # Folder containing the ground truth
             'SEQMAP_FILE': f"{gt_folder}/seqmaps.txt",          # File containing the sequence map
             'OUTPUT_FOLDER': output_dir,  # Where to save the outputs (if None, nothing is saved)
+            'CLASSES_TO_EVAL': ['spine'],
+            'DISTRACTOR_CLASSES': [],
             'TRACKER_SUB_FOLDER': '',   # Subfolder within the tracker folder containing the data
             'BENCHMARK': 'MOT17',            # Which benchmark to use (MOT17, KITTI, etc.)
             'SEQ_INFO': False,               # Whether to use sequence information
