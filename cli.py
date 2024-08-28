@@ -13,7 +13,8 @@ def cli():
 @click.option('--dataset', type=str, required=True, help='Dataset that should be used for object tracking')
 @click.option('--detections', type=click.Path(exists=True, file_okay=True, dir_okay=False), required=True, help='Path to a CSV file containing detections')
 @click.option('--output-dir', type=str, required=True, default='results_detection', help='Output directory')
-def naive_tracking(dataset: str, detections: str, output_dir: str):
+@click.option('--threshold', type=float, required=False, default=0.5, help='minimum confidence score')
+def naive_tracking(dataset: str, detections: str, output_dir: str, threshold: float):
     print("Perform tracking ...")
     # Get all available stacks in the dataset
     stacks = DatasetConfiguration.get_dataset_stacks(dataset_name=dataset)
@@ -44,8 +45,10 @@ def naive_tracking(dataset: str, detections: str, output_dir: str):
                 'y0': int,
                 'w': int,
                 'h': int,
+                'score': float,
             }
             cmd.traces_df = cmd.traces_df.astype(convert_dict)
+            cmd.traces_df = cmd.traces_df[cmd.traces_df['score'] >= threshold]
             cmd.traces_df.to_csv(f"{output_dir}/{stack_name}.txt", index=False, header=False)
 
         print("\r", end="")
