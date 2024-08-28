@@ -5,6 +5,7 @@ pyyaml
 dash
 dash-bootstrap-components
 globox
+plotly
 supervision
 mkdocs
 mkdocs-material
