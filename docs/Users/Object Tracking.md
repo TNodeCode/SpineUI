@@ -10,13 +10,13 @@ The naive tracking algorithm uses the intersection over maximum metric to classi
 python cli.py naive-tracking \
     --dataset spine_mixed_train \
     --detections detections/faster_rcnn/faster_rcnn_run1_spine_mixed_train.csv \
-    --output track.csv
+    --output-dir detections/naive-ttracking
 ```
 
 Parameters:
 `dataset` is one of the datasets defined in the `dataset.yml` configuration file.
 `detections` is a path to a CSV file containing detected bounding boxes.
-`output` is the path where the results of the naive tracking algorithm should be stored.
+`output-dir` is the path where the results of the naive tracking algorithm should be stored.
 
 The resulting output file will look like this:
 
