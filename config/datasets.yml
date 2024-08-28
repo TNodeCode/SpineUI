@@ -1,18 +1,10 @@
 datasets:
-  - name: spine_tracking
-    paths:
-      - ./datasets/v853/220321/t1/*.png
-      - ./datasets/v853/220321/t2/*.png
-      - ./datasets/v853/220324/t1/*.png
-      - ./datasets/v853/220324/t2/*.png
-    annotations:
-      - name: nonane
   - name: spine_mixed_train
     paths:
       - ./datasets/spine/train/*.png
     stacks:
       patterns:
-        - regex: .*SR052N([0-9]{1})D([0-9]{1})day([0-9]{1})stack([0-9]{1}).*
+        - regex: .*aid052N([0-9]{1})D([0-9]{1})_tp([0-9]{1,4})_stack([0-9]{1,4})_layer([0-9]{1,4}).*
           stack_name: "Simon N$1 D$2 day $3 stack $4"
         - regex: .*aidv853_date([0-9]{2})([0-9]{2})([0-9]{2})_tp([0-9]{1})_stack([0-9]{1})_sub([0-9]{2})_layer([0-9]{3}).*
           stack_name: "Altug $1-$2-$3 tp $4 stack $5 sub $6 layer $7"

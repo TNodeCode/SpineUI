@@ -1,6 +1,7 @@
 from collections import OrderedDict
 from typing import List, Optional, Tuple
 
+import os
 import numpy as np
 import pandas as pd
 from scipy.spatial import distance as dist
@@ -336,6 +337,8 @@ class CentroidTracker:
                 bbox = {
                     'frame': int(frame),
                     'object_id': int(id),
+                    'cx': int(bbox[0]),
+                    'cy': int(bbox[1]),
                     'x0': int(bbox[0] - 0.5 * bbox[2]),
                     'y0': int(bbox[1] - 0.5 * bbox[3]),
                     'w': int(bbox[2]),
@@ -352,12 +355,18 @@ class CentroidTracker:
             convert_dict = {
                 'object_id': int,
                 'frame': int,
+                'cx': int,
+                'cy': int,
                 'x0': int,
                 'y0': int,
                 'w': int,
                 'h': int,
             }
             df = df.astype(convert_dict)
+
+        # convert file paths to filenames
+        df['basename'] = df['filename'].apply(lambda x: os.path.basename(x))
+        
         return df
         
 

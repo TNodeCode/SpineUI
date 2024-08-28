@@ -29,7 +29,8 @@ def view_tracking_results(dataset_name: str, traces_df: pd.DataFrame):
         index=pagination.selected_index,
     )
 
-    image_traces = traces_df.query(f"filename == '{selected_filename}'")
+    print("TRACES_DF", traces_df)
+    image_traces = traces_df.query(f"basename == '{basename(selected_filename)}'")
     image_traces['x0'] = (image_traces['cx'] - 0.5 * image_traces['w']).astype(int)
     image_traces['x1'] = (image_traces['cx'] + 0.5 * image_traces['w']).astype(int)
     image_traces['y0'] = (image_traces['cy'] - 0.5 * image_traces['h']).astype(int)
