@@ -63,10 +63,10 @@ erDiagram
     DATASET {
         int num_instances "Number of distinct annotation instance ids"
     }
-    CATEGORY ||--o{ DATASET : has
-    VIDEO ||--o{ DATASET : has
-    IMAGE ||--o{ DATASET : has
-    ANNOTATION ||--o{ DATASET : has
+    CATEGORY }o--|| DATASET : has
+    VIDEO }o--|| DATASET : has
+    IMAGE }o--|| DATASET : has
+    ANNOTATION }o--|| DATASET : has
 ```
 
 ## Category entities
