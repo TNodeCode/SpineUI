@@ -6,6 +6,12 @@ Trackformer is an end-to-end object tracking model. You can find the source code
 
 Trackformer was built to run in an environment where Python 3.7.x should be installed. There are several options for initializing such an environment on your system. We will show you two ways how you can setup this environment on your machine using Conda or Docker.
 
+
+## Setup with WSL 
+
+You can setup Trackformer in a WSL environment under Windows. We have a separate article in this documentation about installing Linux CUDA environments under Windows. Follow the steps of this article and then follow the installation process described below for Conda environments.
+
+
 ## Setup with Docker on Windows
 
 It is possible to run Trackformer inside a Docker container on Windows. We will explain the stept for creating the Docker image and how to run this Docker image in the following section.
