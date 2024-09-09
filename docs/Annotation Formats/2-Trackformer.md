@@ -1,5 +1,6 @@
 # Trackformer Annotations
 
+Trackformer uses a modified JSON file format for annotating ground truth for multi-object tracking. In this article we will explain this annotation format.
 
 ## Annotation format
 Sample annotation file
