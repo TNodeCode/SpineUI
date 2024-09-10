@@ -13,7 +13,8 @@ class CustomMotDataset(trackeval.datasets.MotChallenge2DBox):
         gt_folder: str,
         detections: str,
         output_dir: str = "tracking-results",
-        num_parallel_cores: int = -1
+        num_parallel_cores: int = -1,
+        metric: str = 'IoM'
     ):
         # Define paths and other configurations
         eval_config = {
@@ -40,6 +41,7 @@ class CustomMotDataset(trackeval.datasets.MotChallenge2DBox):
             'SEQ_INFO': False,               # Whether to use sequence information
             'SKIP_SPLIT_FOL': True,
             'DO_PREPROC': False,
+            'SIMILARITY_METRIC': metric,
         }
 
         # Initialize the evaluator

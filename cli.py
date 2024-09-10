@@ -61,11 +61,13 @@ def naive_tracking(dataset: str, detections: str, output_dir: str, threshold: fl
 @click.option('--gt-folder', type=click.Path(exists=True, file_okay=False, dir_okay=True), required=True, help='Path to MOT17 dataset')
 @click.option('--detections', type=click.Path(exists=True, file_okay=False, dir_okay=True), required=True, help='Path to detections')
 @click.option('--output-dir', type=str, required=False, help='Output directory')
-def eval_tracking(gt_folder: str, detections: str, output_dir: str):
+@click.option('--similarity-metric', type=str, required=False, default='IoU', help='Metric used for computing similarities of bboxes (IoU or IoM)')
+def eval_tracking(gt_folder: str, detections: str, output_dir: str, similarity_metric: str):
     CustomMotDataset.evaluate(
         gt_folder=gt_folder,
         detections=detections,
         output_dir=output_dir,
+        metric=similarity_metric,
     )
 
 
