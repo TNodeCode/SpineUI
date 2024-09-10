@@ -41,10 +41,12 @@ After the tracking CSV file is generated you can evaluate the tracking results a
 python cli.py eval-tracking \
     --gt-folder datasets/MOT17/train \
     --detections detections/naive-tracking \
-    --output-dir detections/naive-tracking-evaluation
+    --output-dir detections/naive-tracking-evaluation \
+    --similarity-metric IoM
 ```
 
 Parameters:<br>
 `--gt-folder`: Ground truth data in MOT17 format<br>
 `--detections`: Directory that contains the tracking result CSV files (one per stack)<br>
 `--output-dir`: Directory where evaluation results should be stored<br>
+`--similarity-metric`: Metric for computing similarity of bounding boxes (IoU or IoM)
