@@ -120,3 +120,43 @@ erDiagram
         instance_id int "Instance ID"
     }
 ```
+
+## Convert MOT to MMDetection COCO format
+
+MMDetection contains a script `tools/dataset_converters/mot2coco.py` that can convert the MOT annotation format to MMDetection COCO format. First place your dataset in the `data/MOT17` directory with the following structure:
+
+```
+train
+|- <stack_train1>
+  |- det
+    |- det.txt
+  |- gt
+    |- gt_half-train.txt
+    |- gt_half-val.txt
+    |- gt.txt
+  |- img
+    |- 000001.png
+    |- 000002.png
+    |- 000003.png
+    |- ...
+  |- seqinfo.ini
+|- <stack_train2>
+  |- ...
+...
+val
+|- <stack_val1>
+...
+test
+|- <stack_test1>
+...
+```
+
+Next call the following Python script to create COCO tracking and REID datasets.
+
+```bash
+# Create COCO tracking dataset
+python ./tools/dataset_converters/mot2coco.py -i ./data/MOT17 -o ./data/MOT17/annotations --split-train --convert-det
+
+# Create REID annotations
+python ./tools/dataset_converters/mot2reid.py -i ./data/MOT17/ -o ./data/MOT17/reid --val-split 0.2 --vis-threshold 0.3
+```

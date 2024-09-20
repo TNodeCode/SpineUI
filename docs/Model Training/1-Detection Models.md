@@ -7,37 +7,18 @@ In this article we go through the steps for installing the neccessary libraries 
 Before you can train the models you need to install the necessary libraries. We assume you have already created a Conda environment. If not here is how you can create a new one:
 
 ```bash
-$ conda create -n spine python==3.11 pip
-$ conda activate spine
-$ python -m pip install --upgrade pip
-```
-
-For the training process we need to install PyTorch with CUDA support. Run this command to install PyTorch with CUDA support:
-
-```bash
-$ python -m pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu124
-```
-
-The next ibrary we need to install is the MMCv library. The MMCV library is already included in this repository and should be installed with the following commands. It should always be built from scrat with the commands shown and not be installed by downloading it from PyPi, otherwise the version installed might not fit your platform. Make sure a C++ compiler and NVCC is available on your machine and a CUDA device is available, otherwise the installation will fail.
-
-```bash
-$ cd mmcv
-$ FORCE_CUDA=1 MMCV_WITH_OPS=1 pip install -e . -v
-```
-
-The next step is to install the needed Python libraries.
-
-```bash
-$ python -m pip install cmake
-$ python -m pip install -i https://test.pypi.org/simple/ tnc-process
-$ python -m pip install -r requirements/build.txt
-$ python -m pip install -r requirements/optional.txt
-$ python -m pip install -r requirements/runtime.txt
+$ pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu124
+$ pip install -U openmim
+$ mim install mmengine mmcv==2.1
+$ pip install -v -e .
+$ pip install -v -e . -r requirements/tracking.txt
+$ pip install globox lap git+https://github.com/JonathonLuiten/TrackEval.git
 ```
 
 ## Model Training
 
 In this article we will show you how you can use this repository for training models that can be used for SpineUI.
+
 
 ### Training
 
@@ -77,6 +58,48 @@ python cli.py train \
     --batch_size $BATCH_SIZE \
     --work_dir $WORK_DIR
 ```
+
+#### Train Faster-RCNN
+
+=== "ResNet50 Backbone"
+    ```bash
+    python tools/train.py \
+        configs/faster_rcnn/faster-rcnn_r50_fpn_1x_coco.py \
+        --resume \
+        --cfg-options \
+        train_cfg.max_epochs=12 \
+        optim_wrapper.optimizer.lr=0.01 \
+        default_hooks.logger.interval=10 \
+        model.roi_head.bbox_head.num_classes=1 \
+        train_dataloader.batch_size=16 \
+        val_dataloader.batch_size=16 \
+        test_dataloader.batch_size=16 \
+    ```
+=== "ResNet101 Backbone"
+    ```bash
+    python tools/train.py \
+        configs/faster_rcnn/faster-rcnn_x101-64x4d_fpn_1x_coco.py \
+        --resume \
+        --cfg-options \
+        train_cfg.max_epochs=25 \
+        optim_wrapper.optimizer.lr=0.05 \
+        default_hooks.logger.interval=10 \
+        model.roi_head.bbox_head.num_classes=1 \
+        train_dataloader.batch_size=8 \
+        val_dataloader.batch_size=8 \
+        test_dataloader.batch_size=8 \
+    ```
+
+### Train Cascade-RCNN
+
+
+### Train Deformable DETR
+
+
+### Train Co-DETR
+
+
+#### Train YoloX
 
 After training the results will be saved in `./runs/<model_name>/<submodel_name>`. You can find the model weights as `.pth` files for each epochs and the training log files there. Also there is a file named `<model_name>.py` which contains all the parameters used for training the model.
 
