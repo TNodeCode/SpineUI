@@ -83,7 +83,7 @@ class DatasetAnnotations:
                 int(box['bbox'][0])+int(box['bbox'][2]),
                 int(box['bbox'][1])+int(box['bbox'][3])
             ])
-            c = box['instance_id'] if instance_labels else box['category_id']
+            c = box['mot_instance_id'] if instance_labels else box['category_id']
             class_id.append(c)
         detection = Detection(xyxy=np.array(xyxy), class_id=np.array(class_id), masks=None)
         return detection

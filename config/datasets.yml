@@ -1,7 +1,7 @@
 datasets:
   - name: mot_train
     paths:
-      - ./datasets/MOT17_all/train/**/img/*.png
+      - ./datasets/MOT17_all/train/aid*/img/*.png
     stacks: 
       patterns:
         - regex: .*aid052N([0-9]{1})D([0-9]{1})_tp([0-9]{1,4})_stack([0-9]{1,4}).*
@@ -15,6 +15,38 @@ datasets:
         type: trackformer
         paths: 
           - ./datasets/MOT17_all/annotations_trackformer/train.json
+  - name: mot_val
+    paths:
+      - ./datasets/MOT17_all/val/aid*/img/*.png
+    stacks: 
+      patterns:
+        - regex: .*aid052N([0-9]{1})D([0-9]{1})_tp([0-9]{1,4})_stack([0-9]{1,4}).*
+          stack_name: "aid052N$1D$2_tp$3_stack$4_default_aug_False_epoch_19_theta_0.5_delta_0.1_Test"
+    annotations:
+      - name: mmtracking_val
+        type: mmtracking
+        paths: 
+          - ./datasets/MOT17_all/annotations/val_cocoformat_all.json
+      - name: trackformer_val
+        type: trackformer
+        paths: 
+          - ./datasets/MOT17_all/annotations_trackformer/val.json
+  - name: mot_test
+    paths:
+      - ./datasets/MOT17_all/test/aid*/img/*.png
+    stacks: 
+      patterns:
+        - regex: .*aid052N([0-9]{1})D([0-9]{1})_tp([0-9]{1,4})_stack([0-9]{1,4}).*
+          stack_name: "aid052N$1D$2_tp$3_stack$4_default_aug_False_epoch_19_theta_0.5_delta_0.1_Test"
+    annotations:
+      - name: mmtracking_test
+        type: mmtracking
+        paths: 
+          - ./datasets/MOT17_all/annotations/test_cocoformat_all.json
+      - name: trackformer_test
+        type: trackformer
+        paths: 
+          - ./datasets/MOT17_all/annotations_trackformer/test.json
   - name: spine_mixed_train
     paths:
       - ./datasets/spine/train/*.png
