@@ -1,4 +1,20 @@
 datasets:
+  - name: mot_train
+    paths:
+      - ./datasets/MOT17_all/train/**/img/*.png
+    stacks: 
+      patterns:
+        - regex: .*aid052N([0-9]{1})D([0-9]{1})_tp([0-9]{1,4})_stack([0-9]{1,4}).*
+          stack_name: "aid052N$1D$2_tp$3_stack$4_default_aug_False_epoch_19_theta_0.5_delta_0.1_Test"
+    annotations:
+      - name: mmtracking_train
+        type: mmtracking
+        paths: 
+          - ./datasets/MOT17_all/annotations/train_cocoformat_all.json
+      - name: trackformer_train
+        type: trackformer
+        paths: 
+          - ./datasets/MOT17_all/annotations_trackformer/train.json
   - name: spine_mixed_train
     paths:
       - ./datasets/spine/train/*.png

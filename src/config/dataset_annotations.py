@@ -1,5 +1,6 @@
 import globox
 import numpy as np
+import json
 from os.path import basename
 from src.config.datasetconfig import DatasetConfiguration
 from src.datasets.masks import Masks
@@ -57,10 +58,75 @@ class DatasetAnnotations:
 
 
     @staticmethod
+    def get_mmtracking_detections(annotation_file: str, filename: str, instance_labels=True):
+        """
+        Create a Decetion object for a given image containing the bounding boxes
+
+        Parameters:
+            annotation_file: The file where the COCO annotations are stored
+            filename: The image filename
+            instance_labels: Whether to show class or instance IDs
+
+        Return:
+            Detection object containing the bounding boxes
+        """
+        with open(annotation_file, 'r') as f:
+            content = json.load(f)
+        image = list(filter(lambda x: x['file_name'].replace('\\', '/') in filename.replace('\\', '/'), content['images']))[0]
+        annotations_raw = list(filter(lambda x: x['image_id'] == image['id'], content['annotations']))
+        xyxy = []
+        class_id = []
+        for box in annotations_raw:
+            xyxy.append([
+                int(box['bbox'][0]),
+                int(box['bbox'][1]),
+                int(box['bbox'][0])+int(box['bbox'][2]),
+                int(box['bbox'][1])+int(box['bbox'][3])
+            ])
+            c = box['instance_id'] if instance_labels else box['category_id']
+            class_id.append(c)
+        detection = Detection(xyxy=np.array(xyxy), class_id=np.array(class_id), masks=None)
+        return detection
+
+
+    @staticmethod
+    def get_trackformer_detections(annotation_file: str, filename: str, instance_labels=True):
+        """
+        Create a Decetion object for a given image containing the bounding boxes
+
+        Parameters:
+            annotation_file: The file where the COCO annotations are stored
+            filename: The image filename
+            instance_labels: Whether to show class or instance IDs
+
+        Return:
+            Detection object containing the bounding boxes
+        """
+        with open(annotation_file, 'r') as f:
+            content = json.load(f)
+        image = list(filter(lambda x: x['file_name'].replace('\\', '/') in filename.replace('\\', '/'), content['images']))[0]
+        annotations_raw = list(filter(lambda x: x['image_id'] == image['id'], content['annotations']))
+        xyxy = []
+        class_id = []
+        for box in annotations_raw:
+            xyxy.append([
+                int(box['bbox'][0]),
+                int(box['bbox'][1]),
+                int(box['bbox'][0])+int(box['bbox'][2]),
+                int(box['bbox'][1])+int(box['bbox'][3])
+            ])
+            c = box['track_id'] if instance_labels else box['category_id']
+            class_id.append(c)
+        detection = Detection(xyxy=np.array(xyxy), class_id=np.array(class_id), masks=None)
+        return detection
+    
+
+    @staticmethod
     def get_detections(
         annotation_obj: object,
         dataset_name: str,
-        filename: str
+        filename: str,
+        instance_labels=False,
     ):
         """
         Get dataset detections
@@ -74,6 +140,25 @@ class DatasetAnnotations:
             Detection object containing either bounding boxes or segmentation masks
         """
         if annotation_obj['type'] == 'coco':
-            return DatasetAnnotations.get_coco_detections(annotation_file=annotation_obj['paths'][0], filename=filename)
+            return DatasetAnnotations.get_coco_detections(
+                annotation_file=annotation_obj['paths'][0],
+                filename=filename,
+            )
+        elif annotation_obj['type'] == 'mmtracking':
+            return DatasetAnnotations.get_mmtracking_detections(
+                annotation_file=annotation_obj['paths'][0],
+                filename=filename,
+                instance_labels=instance_labels,
+            )
+        elif annotation_obj['type'] == 'trackformer':
+            return DatasetAnnotations.get_trackformer_detections(
+                annotation_file=annotation_obj['paths'][0],
+                filename=filename,
+                instance_labels=instance_labels,
+            )
         elif annotation_obj['type'] == 'masks':
-            return DatasetAnnotations.get_mask_detections(dataset_name=dataset_name, annotation_name=annotation_obj['name'], filename=filename)
+            return DatasetAnnotations.get_mask_detections(
+                dataset_name=dataset_name,
+                annotation_name=annotation_obj['name'],
+                filename=filename
+            )

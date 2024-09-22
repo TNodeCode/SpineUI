@@ -40,6 +40,10 @@ def view_dataset_inspection():
             "Show Segmentation Masks Left",
             True
         )
+        instance_labels_1 = st.checkbox(
+            "Show Instance IDs Left",
+            False
+        )
     with col2:
         annotation_name_2 = st.selectbox(
             'Select second annotation',
@@ -52,6 +56,10 @@ def view_dataset_inspection():
         show_masks_2 = st.checkbox(
             "Show Segmentation Masks Right",
             True
+        )
+        instance_labels_2 = st.checkbox(
+            "Show Instance IDs Right",
+            False
         )
 
     annotation_obj_1 = DatasetConfiguration.get_dataset_annotation(dataset_name=dataset_name, annotation_name=annotation_name_1)
@@ -72,8 +80,18 @@ def view_dataset_inspection():
     )
 
     # Create detections objects
-    detections_1 = DatasetAnnotations.get_detections(annotation_obj=annotation_obj_1, dataset_name=dataset_name, filename=selected_filename)
-    detections_2 = DatasetAnnotations.get_detections(annotation_obj=annotation_obj_2, dataset_name=dataset_name, filename=selected_filename)
+    detections_1 = DatasetAnnotations.get_detections(
+        annotation_obj=annotation_obj_1,
+        dataset_name=dataset_name,
+        filename=selected_filename,
+        instance_labels=instance_labels_1
+    )
+    detections_2 = DatasetAnnotations.get_detections(
+        annotation_obj=annotation_obj_2,
+        dataset_name=dataset_name,
+        filename=selected_filename,
+        instance_labels=instance_labels_2
+    )
 
     pagination.update_selected_index(selected_filename)
 
