@@ -42,13 +42,13 @@ python demo/demo_mot_vis.py configs/mot/deepsort/sort_faster-rcnn_fpn_4e_mot17-p
 ### Convert dataset from MOT to COCO
 
 ```bash
-python ./tools/convert_datasets/mot/mot2coco.py -i ./data/MOT17/ -o ./data/MOT17/annotations --split-train --convert-det
+python ./tools/dataset_converters/mot2reid.py -i ./data/MOT17/ -o ./data/MOT17/reid --val-split 0.2 --vis-threshold 0.3
 ```
 
 ### Training
 
 ```bash
-python tools/train.py .\configs\det\faster-rcnn_r50_fpn_4e_mot17.py
+python tools/train.py ./configs/det/faster-rcnn_r50_fpn_4e_mot17.py
 ```
 
 ## Train REID model
@@ -62,7 +62,7 @@ python ./tools/convert_datasets/mot/mot2reid.py -i ./data/MOT17/ -o ./data/MOT17
 ### Training
 
 ```bash
-python .\tools\train.py .\configs\reid\resnet50_b32x8_MOT17.py
+python ./tools/train.py ./configs/reid/resnet50_b32x8_MOT17.py
 ```
 
 ## SORT, DeepSort, Tracktor Inference
