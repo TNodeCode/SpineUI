@@ -1,4 +1,20 @@
 datasets:
+  - name: mot_simon_train
+    paths:
+      - ./datasets/MOT17/train/aid*/img/*.png
+    stacks: 
+      patterns:
+        - regex: .*aid052N([0-9]{1})D([0-9]{1})_tp([0-9]{1,4})_stack([0-9]{1,4}).*
+          stack_name: "aid052N$1D$2_tp$3_stack$4_default_aug_False_epoch_19_theta_0.5_delta_0.1_Test"
+    annotations:
+      - name: mmtracking_train
+        type: mmtracking
+        paths: 
+          - ./datasets/MOT17/annotations/half-train_cocoformat.json
+      - name: Bytetrack
+        type: trackeval
+        paths:
+          - ./detections/bytetrack/train/run_2/epoch_300/seqmaps
   - name: mot_train
     paths:
       - ./datasets/MOT17_all/train/aid*/img/*.png

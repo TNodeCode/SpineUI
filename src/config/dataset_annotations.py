@@ -1,5 +1,7 @@
+import os
 import globox
 import numpy as np
+import pandas as pd
 import json
 from os.path import basename
 from src.config.datasetconfig import DatasetConfiguration
@@ -90,6 +92,45 @@ class DatasetAnnotations:
 
 
     @staticmethod
+    def get_trackeval_detections(annotation_dir: str, filename: str, instance_labels=True):
+        """
+        Create a Decetion object for a given image containing the bounding boxes
+
+        Parameters:
+            annotation_file: The file where the COCO annotations are stored
+            filename: The image filename
+            instance_labels: Whether to show class or instance IDs
+
+        Return:
+            Detection object containing the bounding boxes
+        """
+        annotation_files = os.listdir(annotation_dir)
+        for annotation_file in annotation_files:
+            if not os.path.splitext(annotation_file)[0] in filename:
+                print("NOT FOUND")
+                continue
+            frame_number = int(os.path.splitext(os.path.basename(filename))[0])
+            print("ANNOTATION_FILE", annotation_file)
+            print("FILENAME", filename)
+            print("FRAME NUMBER", frame_number)
+            df = pd.read_csv(f"{annotation_dir}/{annotation_file}", header=None)
+            df = df[df[0] == frame_number]
+            xyxy = []
+            class_id = []
+            for i, row in df.iterrows():
+                xyxy.append([
+                    int(row[2]),
+                    int(row[3]),
+                    int(row[2])+int(row[4]),
+                    int(row[3])+int(row[5])
+                ])
+                c = int(row[1]) if instance_labels else 1
+                class_id.append(c)
+            detection = Detection(xyxy=np.array(xyxy), class_id=np.array(class_id), masks=None)
+            return detection
+
+
+    @staticmethod
     def get_trackformer_detections(annotation_file: str, filename: str, instance_labels=True):
         """
         Create a Decetion object for a given image containing the bounding boxes
@@ -153,6 +194,12 @@ class DatasetAnnotations:
         elif annotation_obj['type'] == 'trackformer':
             return DatasetAnnotations.get_trackformer_detections(
                 annotation_file=annotation_obj['paths'][0],
+                filename=filename,
+                instance_labels=instance_labels,
+            )
+        elif annotation_obj['type'] == 'trackeval':
+            return DatasetAnnotations.get_trackeval_detections(
+                annotation_dir=annotation_obj['paths'][0],
                 filename=filename,
                 instance_labels=instance_labels,
             )
