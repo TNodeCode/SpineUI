@@ -1,27 +1,13 @@
 datasets:
-  - name: mot_simon_train
-    paths:
-      - ./datasets/MOT17/train/aid*/img/*.png
-    stacks: 
-      patterns:
-        - regex: .*aid052N([0-9]{1})D([0-9]{1})_tp([0-9]{1,4})_stack([0-9]{1,4}).*
-          stack_name: "aid052N$1D$2_tp$3_stack$4_default_aug_False_epoch_19_theta_0.5_delta_0.1_Test"
-    annotations:
-      - name: mmtracking_train
-        type: mmtracking
-        paths: 
-          - ./datasets/MOT17/annotations/half-train_cocoformat.json
-      - name: Bytetrack
-        type: trackeval
-        paths:
-          - ./detections/bytetrack/train/run_2/epoch_300/seqmaps
   - name: mot_train
+    type: mot
+    root_dir: ./datasets/MOT17_all/train
     paths:
       - ./datasets/MOT17_all/train/aid*/img/*.png
-    stacks: 
-      patterns:
-        - regex: .*aid052N([0-9]{1})D([0-9]{1})_tp([0-9]{1,4})_stack([0-9]{1,4}).*
-          stack_name: "aid052N$1D$2_tp$3_stack$4_default_aug_False_epoch_19_theta_0.5_delta_0.1_Test"
+    detections:
+      - name: Faster RCNN
+        paths:
+          - ./detections/faster_rcnn/faster_rcnn_mot_all_train_epoch_9.csv
     annotations:
       - name: mmtracking_train
         type: mmtracking
@@ -32,6 +18,8 @@ datasets:
         paths: 
           - ./datasets/MOT17_all/annotations_trackformer/train.json
   - name: mot_val
+    type: mot
+    root_dir: ./datasets/MOT17_all/val
     paths:
       - ./datasets/MOT17_all/val/aid*/img/*.png
     stacks: 
@@ -48,6 +36,8 @@ datasets:
         paths: 
           - ./datasets/MOT17_all/annotations_trackformer/val.json
   - name: mot_test
+    type: mot
+    root_dir: ./datasets/MOT17_all/test
     paths:
       - ./datasets/MOT17_all/test/aid*/img/*.png
     stacks: 
@@ -64,6 +54,8 @@ datasets:
         paths: 
           - ./datasets/MOT17_all/annotations_trackformer/test.json
   - name: spine_mixed_train
+    type: coco
+    root_dir: ./datasets/spine/train
     paths:
       - ./datasets/spine/train/*.png
     stacks:
@@ -99,6 +91,8 @@ datasets:
         paths:
           - ./detections/co_detr_old/co_detr_co_dino_5scale_swin_large_16e_o365tococo_spine_mixed_epoch_*_train.csv
   - name: spine_mixed_val
+    type: coco
+    root_dir: ./datasets/spine/val
     paths:
       - ./datasets/spine/val/*.png
     stacks:
@@ -133,6 +127,8 @@ datasets:
         paths:
           - ./detections/co_detr_old/co_detr_co_dino_5scale_swin_large_16e_o365tococo_spine_mixed_epoch_*_val.csv
   - name: spine_mixed_test
+    type: coco
+    root_dir: ./datasets/spine/test
     paths:
       - ./datasets/spine/test/*.png
     stacks:
@@ -166,99 +162,3 @@ datasets:
       - name: Co-DETR
         paths:
           - ./detections/co_detr_old/co_detr_co_dino_5scale_swin_large_16e_o365tococo_spine_mixed_epoch_*_test.csv
-  - name: spine_altug_train
-    paths:
-      - ./datasets/spine/train/aidv*.png
-    annotations:
-      - name: original
-        type: coco
-        paths: 
-          - ./datasets/spine/annotations/instances_train2017.json
-      - name: sam-b
-        type: masks
-        paths: 
-          - ./datasets/spine/train-sam-b/aidv*
-      - name: sam-l
-        type: masks
-        paths: 
-          - ./datasets/spine/train-sam-l/aidv*
-  - name: spine_altug_val
-    paths:
-      - ./datasets/spine/val/aidv*.png
-    annotations:
-      - name: original
-        type: coco
-        paths: 
-          - ./datasets/spine/annotations/instances_val2017.json
-      - name: sam-b
-        type: masks
-        paths: 
-          - ./datasets/spine/val-sam-b/aidv*
-      - name: sam-l
-        type: masks
-        paths: 
-          - ./datasets/spine/val-sam-l/aidv*
-  - name: spine_altug_test
-    paths:
-      - ./datasets/spine/test/aidv*.png
-    annotations:
-      - name: original
-        type: coco
-        paths: 
-          - ./datasets/spine/annotations/instances_test2017.json
-      - name: sam-b
-        type: masks
-        paths: 
-          - ./datasets/spine/test-sam-b/aidv*
-      - name: sam-l
-        type: masks
-        paths: 
-          - ./datasets/spine/test-sam-l/aidv*
-  - name: spine_simon_train
-    paths:
-      - ./datasets/spine/train/SR*.png
-    annotations:
-      - name: original
-        type: coco
-        paths: 
-          - ./datasets/spine/annotations/instances_train2017.json
-      - name: sam-b
-        type: masks
-        paths: 
-          - ./datasets/spine/train-sam-b/SR*
-      - name: sam-l
-        type: masks
-        paths: 
-          - ./datasets/spine/train-sam-l/SR*
-  - name: spine_simon_val
-    paths:
-      - ./datasets/spine/val/SR*.png
-    annotations:
-      - name: original
-        type: coco
-        paths: 
-          - ./datasets/spine/annotations/instances_val2017.json
-      - name: sam-b
-        type: masks
-        paths: 
-          - ./datasets/spine/val-sam-b/SR*
-      - name: sam-l
-        type: masks
-        paths: 
-          - ./datasets/spine/val-sam-l/SR*
-  - name: spine_simon_test
-    paths:
-      - ./datasets/spine/test/SR*.png
-    annotations:
-      - name: original
-        type: coco
-        paths: 
-          - ./datasets/spine/annotations/instances_test2017.json
-      - name: sam-b
-        type: masks
-        paths: 
-          - ./datasets/spine/test-sam-b/SR*
-      - name: sam-l
-        type: masks
-        paths: 
-          - ./datasets/spine/test-sam-l/SR*

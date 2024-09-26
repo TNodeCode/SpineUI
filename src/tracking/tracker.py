@@ -83,11 +83,13 @@ class CentroidTracker:
             OrderedDict: dict with id, centroid pairs
         """
         tmpIDs = list(self.disappeared.keys())
+        """
         for objectID in tmpIDs:
             if self.disappeared[objectID] == self.maxDisappeared + 1:
                 del self.objects[objectID]
                 del self.appeared[objectID]
                 del self.disappeared[objectID]
+        """
 
         correctObjects = OrderedDict()
         for objectID in self.objects.keys():

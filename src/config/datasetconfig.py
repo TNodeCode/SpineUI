@@ -1,6 +1,7 @@
 import yaml
 import glob
 import re
+import os
 
 
 class DatasetConfiguration:
@@ -74,24 +75,35 @@ class DatasetConfiguration:
         dataset = DatasetConfiguration.get_dataset_config(dataset_name=dataset_name)
         image_paths = DatasetConfiguration.get_dataset_image_paths(dataset_name=dataset_name)
         dataset_stacks = {}
-        for image_path in image_paths:
-            for pattern in dataset['stacks']['patterns']:
-                # Check if the image path matches the pattern
-                matches = re.match(pattern=pattern['regex'], string=image_path)
-                # If there is no match we can continue
-                if matches is None:
-                    continue
-                # Get all groups of the regex match
-                groups = matches.groups()
-                # Build the name of the stack based on the groups
-                stack_name = pattern['stack_name']
-                for i, group_name in enumerate(groups):
-                    stack_name = stack_name.replace("$"+str(i+1), group_name)
+        dataset_type = dataset['type']
+        if dataset_type == 'mot': # MOT17 datasets
+            for image_path in image_paths:
+                # Extract stack name from image path
+                stack_name = image_path.replace(os.sep, '/').split('/')[-3]
                 # Create new stack entity if it does not exist
                 if stack_name not in dataset_stacks.keys():
                     dataset_stacks |= {stack_name: DatasetStackEntity(name=stack_name, image_paths=[])}
                 # Add image path to the stack
-                dataset_stacks[stack_name].add_image_path(image_path)
+                dataset_stacks[stack_name].add_image_path(image_path.replace(os.sep, '/'))
+        else: # coco datasets
+            for image_path in image_paths:
+                for pattern in dataset['stacks']['patterns']:
+                    # Check if the image path matches the pattern
+                    matches = re.match(pattern=pattern['regex'], string=image_path)
+                    # If there is no match we can continue
+                    if matches is None:
+                        continue
+                    # Get all groups of the regex match
+                    groups = matches.groups()
+                    # Build the name of the stack based on the groups
+                    stack_name = pattern['stack_name']
+                    for i, group_name in enumerate(groups):
+                        stack_name = stack_name.replace("$"+str(i+1), group_name)
+                    # Create new stack entity if it does not exist
+                    if stack_name not in dataset_stacks.keys():
+                        dataset_stacks |= {stack_name: DatasetStackEntity(name=stack_name, image_paths=[])}
+                    # Add image path to the stack
+                    dataset_stacks[stack_name].add_image_path(image_path.replace(os.sep, '/'))
         return dataset_stacks
 
 

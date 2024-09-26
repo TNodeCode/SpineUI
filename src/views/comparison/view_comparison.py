@@ -16,10 +16,12 @@ def view_model_comparison():
         DatasetConfiguration.get_dataset_names()
     )
 
+    # Get dataset configuration
+    dataset = DatasetConfiguration.get_dataset_config(dataset_name=dataset_name)
     # Get paths of all images belonging to the selected dataset
     image_paths = DatasetConfiguration.get_dataset_image_paths(dataset_name=dataset_name)
     # Contains mappings from image file names to the directories where they are stored
-    image_path_mappings = {x[1] : x[0] for x in list(map(lambda p: os.path.split(p), image_paths))}
+    image_path_mappings = {x.replace(os.sep, '/').replace(dataset['root_dir'], '')[1:] : x for x in image_paths}
 
     detection_objs = DatasetConfiguration.get_dataset_detections(dataset_name=dataset_name)
     
@@ -124,7 +126,7 @@ def view_model_comparison():
 
     # Load the image corresponding to the selected filename
     basepath = image_path_mappings[selected_filename]
-    image_1 = Image.open(f"{basepath}/{selected_filename}").resize((512, 512))
+    image_1 = Image.open(basepath).resize((512, 512))
     image_1 = image_1.convert(mode='RGB')
     image_2 = image_1.copy()
 

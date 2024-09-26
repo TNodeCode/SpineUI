@@ -34,16 +34,18 @@ class StackTrackingCommand():
             return
         
         # Get all available stacks in the dataset
+        dataset = DatasetConfiguration.get_dataset_config(dataset_name=self.dataset_name)
         stacks = DatasetConfiguration.get_dataset_stacks(dataset_name=self.dataset_name)
 
         # Display a select element for the stacks
         stack_entity = stacks[self.stack_name]
 
         # Read all detected bounding boxes
-        df_det = pd.read_csv(self.detections_file) # TODO
+        df_det = pd.read_csv(self.detections_file)
         stack_bboxes = []
+        print("STACK ENTITY", stack_entity.image_paths)
         for filename in stack_entity.image_paths:
-            bboxes = df_det[df_det['filename'] == os.path.basename(filename)][["xmin", "ymin", "xmax", "ymax", "score"]].to_numpy()
+            bboxes = df_det[df_det['filename'] == filename.replace(dataset['root_dir'], '')[1:]][["xmin", "ymin", "xmax", "ymax", "score"]].to_numpy()
             bboxes[:, 0:3] = bboxes[:, 0:3].astype(int)
             stack_bboxes.append(bboxes)
         
