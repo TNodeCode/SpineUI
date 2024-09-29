@@ -136,20 +136,21 @@ def update_line_charts(subdir, csv_files):
     # Read the selected CSV files
     for i, csv_file in enumerate(csv_files):
         dfs.append(pd.read_csv(os.path.join(root_directory, subdir, csv_file)))
+        label = os.path.splitext(os.path.basename(csv_file))[0]
         figure_data_ap.append({
             'x': dfs[i].index,
             'y': dfs[i]['ap'],
-            'name': os.path.basename(csv_file)
+            'name': label
         })
         figure_data_ar.append({
             'x': dfs[i].index,
             'y': dfs[i]['ar'],
-            'name': os.path.basename(csv_file)
+            'name': label
         })
         figure_data_f1.append({
             'x': dfs[i].index,
             'y': dfs[i]['f1'],
-            'name': os.path.basename(csv_file)
+            'name': label
         })
     
     
