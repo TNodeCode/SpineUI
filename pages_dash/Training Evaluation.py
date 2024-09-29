@@ -18,35 +18,6 @@ subdir = subdirs[0]
 # Get the list of CSV files in the data directory
 csv_files = glob.glob(os.path.join(root_directory, subdir, "*.csv"))
 
-
-figure_config = {
-    'ap': {
-        'title': 'AP scores during training',
-        'x-axis': {'title': 'Epochs'},
-        'y-axis': {'title': 'AP'},
-    },
-    'ar': {
-        'title': 'AR scores during training',
-        'x-axis': {'title': 'Epochs'},
-        'y-axis': {'title': 'AR'},
-    },
-    'f1': {
-        'title': 'F1 scores during training',
-        'x-axis': {'title': 'Epochs'},
-        'y-axis': {'title': 'F1'},
-    },
-}
-
-yaml_file_path = root_directory + "/" + subdir + "/figures.yaml"
-
-if os.path.exists(yaml_file_path):
-    print("EXISTS")
-    with open(yaml_file_path, "r") as fp:
-        _figure_config = yaml.safe_load(fp)
-        print(_figure_config)
-        figure_config.update(_figure_config)
-        print(figure_config)
-
 # Define the layout of the app
 layout = html.Div([
     dbc.Container([
@@ -136,6 +107,31 @@ def update_line_charts(subdir, csv_files):
     figure_data_ap = []
     figure_data_ar = []
     figure_data_f1 = []
+
+    figure_config = {
+        'ap': {
+            'title': 'AP scores during training',
+            'x-axis': {'title': 'Epochs'},
+            'y-axis': {'title': 'AP'},
+        },
+        'ar': {
+            'title': 'AR scores during training',
+            'x-axis': {'title': 'Epochs'},
+            'y-axis': {'title': 'AR'},
+        },
+        'f1': {
+            'title': 'F1 scores during training',
+            'x-axis': {'title': 'Epochs'},
+            'y-axis': {'title': 'F1'},
+        },
+    }
+
+    yaml_file_path = root_directory + "/" + subdir + "/figures.yaml"
+
+    if os.path.exists(yaml_file_path):
+        with open(yaml_file_path, "r") as fp:
+            _figure_config = yaml.safe_load(fp)
+            figure_config.update(_figure_config)
 
     # Read the selected CSV files
     for i, csv_file in enumerate(csv_files):
