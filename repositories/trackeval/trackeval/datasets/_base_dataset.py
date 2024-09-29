@@ -282,8 +282,8 @@ class _BaseDataset(ABC):
             _area1 = area1.reshape(-1, 1).repeat(area2.shape[0], axis=1)
             _area2 = area2.reshape(1, -1).repeat(area1.shape[0], axis=0)
             areas = np.concatenate((_area1[..., np.newaxis], _area2[..., np.newaxis]), axis=2)
-            max_area = areas.max(axis=2)
-            return intersection / max_area
+            min_area = areas.min(axis=2)
+            return intersection / min_area
         elif metric == 'IoU':
             area2 = (bboxes2[..., 2] - bboxes2[..., 0]) * (bboxes2[..., 3] - bboxes2[..., 1])
             union = area1[:, np.newaxis] + area2[np.newaxis, :] - intersection
