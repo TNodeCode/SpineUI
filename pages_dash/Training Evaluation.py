@@ -4,6 +4,7 @@ import dash_bootstrap_components as dbc
 import pandas as pd
 import os
 import glob
+import yaml
 
 dash.register_page(__name__, path='/training_evaluation')
 
@@ -17,8 +18,34 @@ subdir = subdirs[0]
 # Get the list of CSV files in the data directory
 csv_files = glob.glob(os.path.join(root_directory, subdir, "*.csv"))
 
-# Initialize the Dash app
-#app = dash.Dash(__name__, external_stylesheets=[dbc.themes.LUMEN])
+
+figure_config = {
+    'ap': {
+        'title': 'AP scores during training',
+        'x-axis': {'title': 'Epochs'},
+        'y-axis': {'title': 'AP'},
+    },
+    'ar': {
+        'title': 'AR scores during training',
+        'x-axis': {'title': 'Epochs'},
+        'y-axis': {'title': 'AR'},
+    },
+    'f1': {
+        'title': 'F1 scores during training',
+        'x-axis': {'title': 'Epochs'},
+        'y-axis': {'title': 'F1'},
+    },
+}
+
+yaml_file_path = root_directory + "/" + subdir + "/figures.yaml"
+
+if os.path.exists(yaml_file_path):
+    print("EXISTS")
+    with open(yaml_file_path, "r") as fp:
+        _figure_config = yaml.safe_load(fp)
+        print(_figure_config)
+        figure_config.update(_figure_config)
+        print(figure_config)
 
 # Define the layout of the app
 layout = html.Div([
@@ -103,7 +130,6 @@ def update_csv_dropdown(selected_subdirectory):
     dash.dependencies.Input('csv-dropdown-2-1', 'value'),
 )
 def update_line_charts(subdir, csv_files):
-    print("SUBDIR", subdir, "CSVFILES", csv_files)
     if type(csv_files) is str:
         csv_files = [csv_files]
     dfs = []
@@ -135,25 +161,25 @@ def update_line_charts(subdir, csv_files):
     figure_map50 = {
         'data': figure_data_ap,
         'layout': {
-            'title': f"AP scores during training",
-            'xaxis': {'title': 'Epoch'},
-            'yaxis': {'title': 'AP'},
+            'title': figure_config['ap']['title'],
+            'xaxis': figure_config['ap']['x-axis'],
+            'yaxis': figure_config['ap']['y-axis'],
         }
     }
     figure_precision = {
         'data': figure_data_ar,
         'layout': {
-            'title': f"AR during training",
-            'xaxis': {'title': 'Epoch'},
-            'yaxis': {'title': 'AR'},
+            'title': figure_config['ar']['title'],
+            'xaxis': figure_config['ar']['x-axis'],
+            'yaxis': figure_config['ar']['y-axis'],
         }
     }
     figure_recall = {
         'data': figure_data_f1,
         'layout': {
-            'title': f"F1 score during training",
-            'xaxis': {'title': 'Epoch'},
-            'yaxis': {'title': 'F1'},
+            'title': figure_config['f1']['title'],
+            'xaxis': figure_config['f1']['x-axis'],
+            'yaxis': figure_config['f1']['y-axis'],
         }
     }
     
