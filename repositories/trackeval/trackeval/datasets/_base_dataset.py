@@ -268,6 +268,7 @@ class _BaseDataset(ABC):
         max_ = np.maximum(bboxes1[:, np.newaxis, :], bboxes2[np.newaxis, :, :])
         
         intersection = np.maximum(min_[..., 2] - max_[..., 0], 0) * np.maximum(min_[..., 3] - max_[..., 1], 0)
+        area_enclosing = (max_[..., 2] - min_[..., 0]) * (max_[..., 3] - max_[..., 1])
 
         area1 = (bboxes1[..., 2] - bboxes1[..., 0]) * (bboxes1[..., 3] - bboxes1[..., 1])
 
@@ -277,13 +278,20 @@ class _BaseDataset(ABC):
             ioas[valid_mask, :] = intersection[valid_mask, :] / area1[valid_mask][:, np.newaxis]
 
             return ioas
-        elif metric == 'IoM':
+        elif metric in ['IoM', 'GIoM']:
             area2 = (bboxes2[..., 2] - bboxes2[..., 0]) * (bboxes2[..., 3] - bboxes2[..., 1])
             _area1 = area1.reshape(-1, 1).repeat(area2.shape[0], axis=1)
             _area2 = area2.reshape(1, -1).repeat(area1.shape[0], axis=0)
             areas = np.concatenate((_area1[..., np.newaxis], _area2[..., np.newaxis]), axis=2)
+            union = area1[:, np.newaxis] + area2[np.newaxis, :] - intersection
             min_area = areas.min(axis=2)
-            return intersection / min_area
+            iom = intersection / min_area
+            uoh = (area_enclosing - union) / area_enclosing
+            uoh[uoh < 0.1] = 0
+            if metric == 'IoM':
+                return iom
+            else:
+                return iom + (iom <= 0) * uoh
         elif metric == 'IoU':
             area2 = (bboxes2[..., 2] - bboxes2[..., 0]) * (bboxes2[..., 3] - bboxes2[..., 1])
             union = area1[:, np.newaxis] + area2[np.newaxis, :] - intersection

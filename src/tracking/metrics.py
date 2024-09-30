@@ -57,10 +57,30 @@ class TrackingMetrics:
         intersection = (x2 - x1) * (y2 - y1)
         union = area1 + area2 - intersection
 
+        x1_enclosing = min(x11, x21)
+        y1_enclosing = min(y11, y21)
+        x2_enclosing = max(x12, x22)
+        y2_enclosing = max(y21, y22)
+
+        # Calculate enclosing area
+        area_enclosing = (x2_enclosing - x1_enclosing) * (y2_enclosing - y1_enclosing)
+        iom = intersection / min(area1, area2)
+        giom = iom - (area_enclosing - union) / area_enclosing
+
         if metric == "iom":
-            return intersection / min(area1, area2)
+            print("Tracker using IoM")
+            return iom
         elif metric == "iou":
+            print("Tracker using IoU")
             return intersection / union
+        elif metric == "giom":
+            print("Tracker using UoH")
+            if iom > 0:
+                return iom
+            elif giom > 0.1:
+                return giom
+            else:
+                return 0
         else:
             raise NotImplementedError(f"Metric {metric} is not implemented")
 
