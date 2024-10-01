@@ -62,7 +62,7 @@ def naive_tracking(dataset: str, detections: str, output_dir: str, threshold: fl
 @cli.command()
 @click.option('--src-dir', type=str, required=True, help='Input directory')
 @click.option('--dst-dir', type=str, required=True, help='Output directory')
-def prepare_tracking_eval(
+def generate_seqmaps(
         src_dir: str,
         dst_dir: str,
 ):
