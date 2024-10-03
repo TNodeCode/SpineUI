@@ -6,7 +6,7 @@ import os
 import glob
 import yaml
 
-dash.register_page(__name__, path='/training_evaluation')
+dash.register_page(__name__, path='/datasets/training_evaluation')
 
 # Set the path to the data directory
 root_directory = "./training_metrics"

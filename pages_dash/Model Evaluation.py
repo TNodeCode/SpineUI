@@ -7,7 +7,7 @@ import plotly.express as px
 import plotly.figure_factory as ff
 import os
 
-dash.register_page(__name__, path='/model_evaluation')
+dash.register_page(__name__, path='/datasets/model_evaluation')
 
 # Set the path to the data directory
 data_dir = "./detections/co_detr_old"
