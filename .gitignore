@@ -1,3 +1,7 @@
 **/*.csv
 **/__pycache__
 **/.ipynb_checkpoints
+*.sh
+!start_app.sh
+!stop_app.sh
+!update_app.sh
