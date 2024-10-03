@@ -2,6 +2,8 @@
 
 Trackformer is an end-to-end object tracking model. You can find the source code inside the `trackformer` directory of this project.
 
+You cn find the source code we used for training the trackformer model in the `repositories/trackformer` directory of this Git repository.
+
 ## Environment
 
 Trackformer was built to run in an environment where Python 3.7.x should be installed. There are several options for initializing such an environment on your system. We will show you two ways how you can setup this environment on your machine using Conda or Docker.
@@ -15,6 +17,43 @@ You can setup Trackformer in a WSL environment under Windows. We have a separate
 ## Setup with Docker on Windows
 
 It is possible to run Trackformer inside a Docker container on Windows. We will explain the stept for creating the Docker image and how to run this Docker image in the following section.
+
+## Spine dataset
+
+Place the Spine MOT dataset in this directory: `data/spine`. The directory structure should now look like this:
+
+```
+data
+|- spine
+  |- annotations
+    |- test.json
+    |- train.json
+    |- val.json
+  |- test
+    |- <stack_name>
+      |- det
+      |- gt
+      |- img
+      |- seqinfo.ini
+    |- <stack_name>
+      |- ...
+  |- train
+    |- <stack_name>
+      |- det
+      |- gt
+      |- img
+      |- seqinfo.ini
+    |- <stack_name>
+      |- ...
+  |- val
+    |- <stack_name>
+      |- det
+      |- gt
+      |- img
+      |- seqinfo.ini
+    |- <stack_name>
+      |- ...
+```
 
 ### Build the Docker image
 
@@ -113,7 +152,7 @@ docker run \
     multi_frame \
     tracking \
     device=cuda:0 \
-    output_dir=models/custom_dataset_deformable \
+    output_dir=checkpoints/custom_dataset_deformable \
     mot_path_train=data/spine \
     mot_path_val=data/spine \
     train_split=train \
@@ -122,3 +161,58 @@ docker run \
 ```
 
 The option `-v $PWD/cfgs:/app/cfgs` maps a directory from Windows into the container. PWD is the absolute path of your project (C:/Users/<username>/<project_dir>). We do this so that we can make changes to the code or the dataset without rebuilding the docker image. Also the created model weights are stored on our Windows filesystem instead on the container filesystem that will be destroyed when the container is shut down. The directory `/root/.cache/torch/hub/checkpoints` inside the container stores the downloaded models from Torch Hub. If we wouldn't map this directory to the `checkpoints` directory of our project the conainer woud download the model each time we restart the container because its filesystem is not persisted on the disk.
+
+### Train a model on a Linux machine
+
+Training the model on a linux machine can be done by the following command:
+
+```bash
+python src/train.py with \
+    mot17 \
+    deformable \
+    multi_frame \
+    tracking \
+    device=cuda:0 \
+    output_dir=checkpoints/custom_dataset_deformable \
+    mot_path_train=data/spine \
+    mot_path_val=data/spine \
+    train_split=train \
+    val_split=val \
+    epochs=20 \
+```
+
+We also created a script named `train_custom.sh` in the root directory of the trackformer repository which contains this command.
+
+
+### Inference
+
+Inference for all stacks of a dataset for all splits can be done with the following bash script:
+
+```bash
+export DATASET=spine        # dataset name
+export SUBDIR=run_1         # subdir in checkpoints dir
+
+for MODEL_NAME in MOTA IDF1 BBOX_AP_IoU_0_50
+do
+    for SPLIT in train val test
+    do
+        for file in ./data/$DATASET/$SPLIT/*
+        do
+        if [ -d "$file" ]; then
+            STACK_NAME="$(basename -- $file)"
+            echo "Processing" $SPLIT $STACK_NAME "..."
+            python src/track.py with \
+                dataset_name=$STACK_NAME \
+                obj_detect_checkpoint_file=checkpoints/$SUBDIR/checkpoint_best_$MODEL_NAME.pth \
+                write_images=True \
+                generate_attention_maps=False \
+                output_dir=detections/$SUBDIR/$MODEL_NAME/$SPLIT
+        fi
+        done
+    done
+done
+```
+
+This will run inference on all images found in `data/spine/$SPLIT` and save renderen images with bounding boxes and trackformer detection files in `detections/$SUBDIR/$MODEL_NAME/$SPLIT`.
+
+The repository also contains this bash code in the file `track_custom.sh` in the root directory.
