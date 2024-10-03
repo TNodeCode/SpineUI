@@ -1,4 +1,4 @@
-export DATASET=spine_all
+export DATASET=spine
 export SUBDIR=run_4
 
 for MODEL_NAME in MOTA IDF1 BBOX_AP_IoU_0_50
