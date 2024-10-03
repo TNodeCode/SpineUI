@@ -155,30 +155,37 @@ def update_line_charts(subdir, csv_file):
     # Read the selected CSV files
     if csv_file:
         df = pd.read_csv(os.path.join(root_directory, subdir, csv_file), index_col='seq')
-        metrics = ['HOTA', 'DetA', 'DetPr', 'DetRe', 'AssA', 'AssPr', 'AssRe', 'LocA']
+        metrics = ['HOTA', 'DetA', 'AssA', 'DetRe', 'DetPr', 'AssRe', 'AssPr', 'LocA']
         styles = [
-            dict(dash='dot', color='red'),
+            dict(color='red'),
             dict(color='blue'),
-            dict(dash='dot', color='blue'),
-            dict(dash='dash', color='blue'),
             dict(color='green'),
-            dict(dash='dot', color='green'),
+            dict(dash='dash', color='blue'),
+            dict(dash='dot', color='blue'),
             dict(dash='dash', color='green'),
+            dict(dash='dot', color='green'),
             dict(color='purple')
         ]
         for metric, style in zip(metrics, styles):
             figure_data_hota.append({
                 'x': [x/100 for x in range(5, 100, 5)],
                 'y': [df.loc['COMBINED'][f"{metric}___{alpha}"] for alpha in range(5, 100, 5)],
-                'name': metric,
+                'name': metric +  " (" + str(round(df.loc['COMBINED'][f"{metric}___AUC"], 2)) + ")",
                 'line': style
             }) 
 
-        for metric in ['HOTA_TP', 'HOTA_FP', 'HOTA_FN']:
+        styles = [ 
+            dict(color='green'),
+            dict(color='orange'),
+            dict(color='red'),
+        ]
+
+        for metric, name, style in zip(['HOTA_TP', 'HOTA_FP', 'HOTA_FN'], ['TP', 'FP', 'FN'], styles):
             figure_data_clearmot.append({
                 'x': [x/100 for x in range(5, 100, 5)],
                 'y': [df.loc['COMBINED'][f"{metric}___{alpha}"] for alpha in range(5, 100, 5)],
-                'name': metric
+                'name': name,
+                'line': style
             })
 
         table_columns_1 = ['MOTA','MOTP','MODA']

@@ -5,6 +5,7 @@ import shutil
 from src.commands.tracking import StackTrackingCommand
 from src.config.datasetconfig import DatasetConfiguration
 from src.tracking.evaluate import CustomMotDataset
+from src.bytetrack.bytetrack import track as _bytetrack
 import click
 
 @click.group()
@@ -57,6 +58,52 @@ def naive_tracking(dataset: str, detections: str, output_dir: str, threshold: fl
 
 
     print(f"Saved tracking results at {output_dir}")
+
+
+@cli.command()
+@click.option('--detections', type=click.Path(exists=True, file_okay=True, dir_okay=False), required=True, help='Path to a CSV file containing detections')
+@click.option('--output-dir', type=str, required=True, default='results_detection', help='Output directory')
+@click.option('--track_threshold', type=float, required=False, default=0.5, help='track threshold')
+@click.option('--match_threshold', type=float, required=False, default=0.7, help='match threshold')
+@click.option('--track_buffer', type=int, required=False, default=100, help='track buffer')
+def bytetrack(detections: str, output_dir: str, track_threshold: float, match_threshold: float, track_buffer: int):
+    # Initialize ByteTrack
+    class Args:
+        match_thresh = 0.5
+        track_thresh = 0.3
+        track_buffer = 100
+        mot20 = False
+        use_cuda = False  # Set to True if you're using a GPU
+
+    # Initialize args
+    args = Args()
+    args.track_thresh = track_threshold
+    args.match_thresh = match_threshold
+    args.track_buffer = track_buffer
+
+    # Load the CSV detection data
+    df = pd.read_csv(detections, header=None)
+
+    # Rename columns
+    df.columns = ['frame', 'class_index', 'class_name', 'x0', 'y0', 'x1', 'y1', 'score']
+
+    # Get unique stack names
+    stack_names = pd.Series(df['frame'].apply(lambda x: os.path.dirname(x)).unique())
+    stack_names = stack_names.apply(lambda x: x.split('/')[0])
+
+    for i, stack_name in enumerate(stack_names):
+        if not stack_name: # skip empty stack names
+            continue
+        print(f"Processing stack {i+1}/{len(stack_names)} {stack_name} ...")
+
+        # Filter df by stack name
+        df_stack = df[df['frame'].str.contains(stack_name)]
+        df_stack = df_stack[df_stack['score'].astype(float) > 0.5]
+
+        # Perform tracking with ByteTrack
+        _bytetrack(args, df_stack, output_dir=output_dir, stack_name=stack_name)
+
+    print("Tracking complete!")
 
 
 @cli.command()
