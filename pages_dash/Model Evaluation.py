@@ -7,10 +7,10 @@ import plotly.express as px
 import plotly.figure_factory as ff
 import os
 
-dash.register_page(__name__, path='/datasets/model_evaluation')
+dash.register_page(__name__, path='/model_evaluation')
 
 # Set the path to the data directory
-data_dir = "./detections/co_detr_old"
+data_dir = "./datasets/detections/faster_rcnn_mot"
 
 # Get the list of CSV files in the data directory
 csv_files = [f for f in os.listdir(data_dir) if f.endswith('.csv')]

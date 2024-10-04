@@ -6,10 +6,10 @@ import os
 import glob
 import yaml
 
-dash.register_page(__name__, path='/datasets/mot_evaluation')
+dash.register_page(__name__, path='/mot_evaluation')
 
 # Set the path to the data directory
-root_directory = "./mot_metrics"
+root_directory = "./datasets/mot_metrics"
 
 # subdirectories
 subdirs = os.listdir(root_directory)
@@ -36,7 +36,7 @@ layout = html.Div([
             dbc.Col(
                 dcc.Dropdown(
                     id='mot-csv-dropdown-1-1',
-                    options=[{'label': subdir, 'value': subdir} for subdir in os.listdir("./mot_metrics")],
+                    options=[{'label': subdir, 'value': subdir} for subdir in os.listdir(root_directory)],
                     value=subdir,
                     multi=False,
                 ),

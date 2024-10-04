@@ -6,10 +6,10 @@ import os
 import glob
 import yaml
 
-dash.register_page(__name__, path='/datasets/training_evaluation')
+dash.register_page(__name__, path='/training_evaluation')
 
 # Set the path to the data directory
-root_directory = "./training_metrics"
+root_directory = "./datasets/training_metrics"
 
 # subdirectories
 subdirs = os.listdir(root_directory)
@@ -36,7 +36,7 @@ layout = html.Div([
             dbc.Col(
                 dcc.Dropdown(
                     id='csv-dropdown-1-1',
-                    options=[{'label': subdir, 'value': subdir} for subdir in os.listdir("./training_metrics")],
+                    options=[{'label': subdir, 'value': subdir} for subdir in os.listdir(root_directory)],
                     value=subdir,
                     multi=False,
                 ),
@@ -138,18 +138,18 @@ def update_line_charts(subdir, csv_files):
         dfs.append(pd.read_csv(os.path.join(root_directory, subdir, csv_file)))
         label = os.path.splitext(os.path.basename(csv_file))[0]
         figure_data_ap.append({
-            'x': dfs[i].index,
-            'y': dfs[i]['ap'],
+            'x': [0] + list(dfs[i].index + 1),
+            'y': [0.0] + list(dfs[i]['ap']),
             'name': label
         })
         figure_data_ar.append({
-            'x': dfs[i].index,
-            'y': dfs[i]['ar'],
+            'x': [0] + list(dfs[i].index + 1),
+            'y': [0.0] + list(dfs[i]['ar']),
             'name': label
         })
         figure_data_f1.append({
-            'x': dfs[i].index,
-            'y': dfs[i]['f1'],
+            'x': [0] + list(dfs[i].index + 1),
+            'y': [0.0] + list(dfs[i]['f1']),
             'name': label
         })
     
