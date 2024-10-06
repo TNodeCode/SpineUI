@@ -5,7 +5,7 @@ import shutil
 from src.commands.tracking import StackTrackingCommand
 from src.config.datasetconfig import DatasetConfiguration
 from src.tracking.evaluate import CustomMotDataset
-from src.bytetrack.bytetrack import track as _bytetrack
+#from src.bytetrack.bytetrack import track as _bytetrack
 import click
 
 @click.group()
@@ -59,7 +59,7 @@ def naive_tracking(dataset: str, detections: str, output_dir: str, threshold: fl
 
     print(f"Saved tracking results at {output_dir}")
 
-
+"""
 @cli.command()
 @click.option('--detections', type=click.Path(exists=True, file_okay=True, dir_okay=False), required=True, help='Path to a CSV file containing detections')
 @click.option('--output-dir', type=str, required=True, default='results_detection', help='Output directory')
@@ -104,7 +104,7 @@ def bytetrack(detections: str, output_dir: str, track_threshold: float, match_th
         _bytetrack(args, df_stack, output_dir=output_dir, stack_name=stack_name)
 
     print("Tracking complete!")
-
+"""
 
 @cli.command()
 @click.option('--src-dir', type=str, required=True, help='Input directory')

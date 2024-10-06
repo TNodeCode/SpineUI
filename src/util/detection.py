@@ -65,6 +65,7 @@ class Detection:
             Detection object
         """
         assert type(masks) == np.ndarray, "Masks must be a numpy array"
+        print("MASKS", masks.shape)
         assert len(masks.shape) == 3, "Masks must be a 3D array"
         xyxy = np.array(list(map(lambda mask: Detection.mask_to_bbox(mask), masks)))
         if class_id is None:

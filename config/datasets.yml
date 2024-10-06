@@ -1,59 +1,67 @@
 datasets:
   - name: mot_train
     type: mot
-    root_dir: ./datasets/MOT17_all/train
+    root_dir: ./datasets/MOT17/train
     paths:
-      - ./datasets/MOT17_all/train/aid*/img/*.png
+      - ./datasets/MOT17/train/aid*/img/*.png
     detections:
       - name: Faster RCNN
         paths:
-          - ./detections/faster_rcnn/faster_rcnn_mot_all_train_epoch_9.csv
+          - ./datasets/detections/faster_rcnn_mot/detections_train_epoch_*.csv
     annotations:
       - name: mmtracking_train
         type: mmtracking
         paths: 
-          - ./datasets/MOT17_all/annotations/train_cocoformat_all.json
+          - ./datasets/MOT17/annotations/train_cocoformat_all.json
       - name: trackformer_train
         type: trackformer
         paths: 
-          - ./datasets/MOT17_all/annotations_trackformer/train.json
+          - ./datasets/MOT17/annotations_trackformer/train.json
   - name: mot_val
     type: mot
-    root_dir: ./datasets/MOT17_all/val
+    root_dir: ./datasets/MOT17/val
     paths:
-      - ./datasets/MOT17_all/val/aid*/img/*.png
+      - ./datasets/MOT17/val/aid*/img/*.png
     stacks: 
       patterns:
         - regex: .*aid052N([0-9]{1})D([0-9]{1})_tp([0-9]{1,4})_stack([0-9]{1,4}).*
           stack_name: "aid052N$1D$2_tp$3_stack$4_default_aug_False_epoch_19_theta_0.5_delta_0.1_Test"
+    detections:
+      - name: Faster RCNN
+        paths:
+          - ./datasets/detections/faster_rcnn_mot/detections_val_epoch_*.csv
     annotations:
       - name: mmtracking_val
         type: mmtracking
         paths: 
-          - ./datasets/MOT17_all/annotations/val_cocoformat_all.json
+          - ./datasets/MOT17/annotations/val_cocoformat_all.json
       - name: trackformer_val
         type: trackformer
         paths: 
-          - ./datasets/MOT17_all/annotations_trackformer/val.json
+          - ./datasets/MOT17/annotations_trackformer/val.json
   - name: mot_test
     type: mot
-    root_dir: ./datasets/MOT17_all/test
+    root_dir: ./datasets/MOT17/test
     paths:
-      - ./datasets/MOT17_all/test/aid*/img/*.png
+      - ./datasets/MOT17/test/aid*/img/*.png
     stacks: 
       patterns:
         - regex: .*aid052N([0-9]{1})D([0-9]{1})_tp([0-9]{1,4})_stack([0-9]{1,4}).*
           stack_name: "aid052N$1D$2_tp$3_stack$4_default_aug_False_epoch_19_theta_0.5_delta_0.1_Test"
+    detections:
+      - name: Faster RCNN
+        paths:
+          - ./datasets/detections/faster_rcnn_mot/detections_test_epoch_*.csv
     annotations:
       - name: mmtracking_test
         type: mmtracking
         paths: 
-          - ./datasets/MOT17_all/annotations/test_cocoformat_all.json
+          - ./datasets/MOT17/annotations/test_cocoformat_all.json
       - name: trackformer_test
         type: trackformer
         paths: 
-          - ./datasets/MOT17_all/annotations_trackformer/test.json
-  - name: spine_mixed_train
+          - ./datasets/MOT17/annotations_trackformer/test.json
+  - name: det_train
     type: coco
     root_dir: ./datasets/spine/train
     paths:
@@ -80,17 +88,16 @@ datasets:
         paths: 
           - ./datasets/spine/train-sam-l/*
     detections:
-      - name: Cascade RCNN
-        paths:
-          - ./detections/cascade_rcnn/cascade_rcnn_run*_spine_mixed_train.csv
       - name: Faster RCNN
         paths:
-          - ./detections/faster_rcnn/faster_rcnn_run*_spine_mixed_train.csv
-          - ./detections/cascade_rcnn/cascade_rcnn_run*_spine_mixed_train.csv
-      - name: Co-DETR
+          - ./datasets/detections/faster_rcnn_det/detections_train_epoch_*.csv
+      - name: Cascade RCNN
         paths:
-          - ./detections/co_detr_old/co_detr_co_dino_5scale_swin_large_16e_o365tococo_spine_mixed_epoch_*_train.csv
-  - name: spine_mixed_val
+          - ./datasets/detections/cascade_rcnn_det/detections_train_epoch_*.csv
+      - name: Deformable DETR
+        paths:
+          - ./datasets/detections/deformable_detr_det/detections_train_epoch_*.csv
+  - name: det_val
     type: coco
     root_dir: ./datasets/spine/val
     paths:
@@ -117,16 +124,16 @@ datasets:
         paths: 
           - ./datasets/spine/val-sam-l/*
     detections:
-      - name: Cascade RCNN
-        paths:
-          - ./detections/cascade_rcnn/cascade_rcnn_run*_spine_mixed_val.csv
       - name: Faster RCNN
         paths:
-          - ./detections/faster_rcnn/faster_rcnn_run*_spine_mixed_val.csv
-      - name: Co-DETR
+          - ./datasets/detections/faster_rcnn_det/detections_val_epoch_*.csv
+      - name: Cascade RCNN
         paths:
-          - ./detections/co_detr_old/co_detr_co_dino_5scale_swin_large_16e_o365tococo_spine_mixed_epoch_*_val.csv
-  - name: spine_mixed_test
+          - ./datasets/detections/cascade_rcnn_det/detections_val_epoch_*.csv
+      - name: Deformable DETR
+        paths:
+          - ./datasets/detections/deformable_detr_det/detections_val_epoch_*.csv
+  - name: det_test
     type: coco
     root_dir: ./datasets/spine/test
     paths:
@@ -153,12 +160,12 @@ datasets:
         paths: 
           - ./datasets/spine/test-sam-l/*
     detections:
-      - name: Cascade RCNN
-        paths:
-          - ./detections/cascade_rcnn/cascade_rcnn_run*_spine_mixed_test.csv
       - name: Faster RCNN
         paths:
-          - ./detections/faster_rcnn/faster_rcnn_run*_spine_mixed_test.csv
-      - name: Co-DETR
+          - ./datasets/detections/faster_rcnn_det/detections_test_epoch_*.csv
+      - name: Cascade RCNN
         paths:
-          - ./detections/co_detr_old/co_detr_co_dino_5scale_swin_large_16e_o365tococo_spine_mixed_epoch_*_test.csv
+          - ./datasets/detections/cascade_rcnn_det/detections_test_epoch_*.csv
+      - name: Deformable DETR
+        paths:
+          - ./datasets/detections/deformable_detr_det/detections_test_epoch_*.csv
