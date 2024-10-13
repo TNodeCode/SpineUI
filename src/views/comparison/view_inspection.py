@@ -40,6 +40,10 @@ def view_dataset_inspection():
             "Show Segmentation Masks Left",
             True
         )
+        show_labels_1 = st.checkbox(
+            "Plot labels Left",
+            True
+        )
         instance_labels_1 = st.checkbox(
             "Show Instance IDs Left",
             False
@@ -55,6 +59,10 @@ def view_dataset_inspection():
         )
         show_masks_2 = st.checkbox(
             "Show Segmentation Masks Right",
+            True
+        )
+        show_labels_2 = st.checkbox(
+            "Plot labels Right",
             True
         )
         instance_labels_2 = st.checkbox(
@@ -84,13 +92,15 @@ def view_dataset_inspection():
         annotation_obj=annotation_obj_1,
         dataset_name=dataset_name,
         filename=selected_filename,
-        instance_labels=instance_labels_1
+        instance_labels=instance_labels_1,
+        show_labels=show_labels_1
     )
     detections_2 = DatasetAnnotations.get_detections(
         annotation_obj=annotation_obj_2,
         dataset_name=dataset_name,
         filename=selected_filename,
-        instance_labels=instance_labels_2
+        instance_labels=instance_labels_2,
+        show_labels=show_labels_2
     )
 
     pagination.update_selected_index(selected_filename)
@@ -102,9 +112,21 @@ def view_dataset_inspection():
 
     # Load the image corresponding to the selected filename
     image_1 = Image.open(f"{selected_filename}").resize((512, 512))
-    annotated_image_1 = Detection.plot_detections(image=image_1, detections=detections_1, show_bboxes=show_bboxes_1, show_masks=show_masks_1)
+    annotated_image_1 = Detection.plot_detections(
+        image=image_1,
+        detections=detections_1,
+        show_bboxes=show_bboxes_1,
+        show_masks=show_masks_1,
+        show_labels=show_labels_1,
+    )
     image_2 = image_1.copy()
-    annotated_image_2 = Detection.plot_detections(image=image_2, detections=detections_2, show_bboxes=show_bboxes_2, show_masks=show_masks_2)
+    annotated_image_2 = Detection.plot_detections(
+        image=image_2,
+        detections=detections_2,
+        show_bboxes=show_bboxes_2,
+        show_masks=show_masks_2,
+        show_labels=show_labels_2,
+    )
 
     # Display the image with bounding boxes
     col1, col2 = st.columns(2)

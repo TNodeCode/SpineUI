@@ -90,7 +90,7 @@ class Detection:
     
 
     @staticmethod
-    def plot_detections(image: Image, detections, show_masks=True, show_bboxes=True):
+    def plot_detections(image: Image, detections, show_masks=True, show_bboxes=True, show_labels=True):
         """
         Plot bounding boxes and segmentation masks
 
@@ -99,9 +99,13 @@ class Detection:
             detections: Detection object
             show_masks: Whether masks should be plottet
             show_bboxes: Whether bounding boxes should be plottet
+            show_labels: Whether labels should be plottet
         """
         mask_annotator = sv.MaskAnnotator()
-        box_annotator = sv.BoxAnnotator()
+        if show_labels:
+            box_annotator = sv.BoxAnnotator()
+        else:
+            box_annotator = sv.BoundingBoxAnnotator()
         if show_masks:
             image = mask_annotator.annotate(
                 scene=image.copy(),

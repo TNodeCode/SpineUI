@@ -3,7 +3,7 @@ datasets:
     type: mot
     root_dir: ./datasets/MOT17/train
     paths:
-      - ./datasets/MOT17/train/aid*/img/*.png
+      - ./datasets/MOT17/train/aid0*/img/*.png
     detections:
       - name: Faster RCNN
         paths:
@@ -12,7 +12,7 @@ datasets:
       - name: mmtracking_train
         type: mmtracking
         paths: 
-          - ./datasets/MOT17/annotations/train_cocoformat_all.json
+          - ./datasets/MOT17/annotations/train_cocoformat_simon.json
       - name: trackformer_train
         type: trackformer
         paths: 
@@ -21,7 +21,7 @@ datasets:
     type: mot
     root_dir: ./datasets/MOT17/val
     paths:
-      - ./datasets/MOT17/val/aid*/img/*.png
+      - ./datasets/MOT17/val/aid0*/img/*.png
     stacks: 
       patterns:
         - regex: .*aid052N([0-9]{1})D([0-9]{1})_tp([0-9]{1,4})_stack([0-9]{1,4}).*
@@ -34,7 +34,7 @@ datasets:
       - name: mmtracking_val
         type: mmtracking
         paths: 
-          - ./datasets/MOT17/annotations/val_cocoformat_all.json
+          - ./datasets/MOT17/annotations/val_cocoformat_simon.json
       - name: trackformer_val
         type: trackformer
         paths: 
@@ -43,7 +43,7 @@ datasets:
     type: mot
     root_dir: ./datasets/MOT17/test
     paths:
-      - ./datasets/MOT17/test/aid*/img/*.png
+      - ./datasets/MOT17/test/aid0*/img/*.png
     stacks: 
       patterns:
         - regex: .*aid052N([0-9]{1})D([0-9]{1})_tp([0-9]{1,4})_stack([0-9]{1,4}).*
@@ -56,7 +56,7 @@ datasets:
       - name: mmtracking_test
         type: mmtracking
         paths: 
-          - ./datasets/MOT17/annotations/test_cocoformat_all.json
+          - ./datasets/MOT17/annotations/test_cocoformat_simon.json
       - name: trackformer_test
         type: trackformer
         paths: 
@@ -65,16 +65,12 @@ datasets:
     type: coco
     root_dir: ./datasets/spine/train
     paths:
-      - ./datasets/spine/train/*.png
-    stacks:
-      patterns:
-        - regex: .*aid052N([0-9]{1})D([0-9]{1})_tp([0-9]{1,4})_stack([0-9]{1,4})_layer([0-9]{1,4}).*
-          stack_name: "aid052N$1D$2_tp$3_stack$4_default_aug_False_epoch_19_theta_0.5_delta_0.1_Test"
+      - ./datasets/spine/train/aid0*.png
     annotations:
       - name: original
         type: coco
         paths: 
-          - ./datasets/spine/annotations/instances_train2017.json
+          - ./datasets/spine/annotations/instances_train2017_simon.json
       - name: sam-b-bboxes-train
         type: coco
         paths: 
@@ -101,7 +97,7 @@ datasets:
     type: coco
     root_dir: ./datasets/spine/val
     paths:
-      - ./datasets/spine/val/*.png
+      - ./datasets/spine/val/aid0*.png
     stacks:
       patterns:
         - regex: .*aid052N([0-9]{1})D([0-9]{1})_tp([0-9]{1,4})_stack([0-9]{1,4})_layer([0-9]{1,4}).*
@@ -110,7 +106,7 @@ datasets:
       - name: original
         type: coco
         paths: 
-          - ./datasets/spine/annotations/instances_val2017.json
+          - ./datasets/spine/annotations/instances_val2017_simon.json
       - name: sam-b-bboxes-val
         type: coco
         paths: 
@@ -137,7 +133,7 @@ datasets:
     type: coco
     root_dir: ./datasets/spine/test
     paths:
-      - ./datasets/spine/test/*.png
+      - ./datasets/spine/test/aid0*.png
     stacks:
       patterns:
         - regex: .*aid052N([0-9]{1})D([0-9]{1})_tp([0-9]{1,4})_stack([0-9]{1,4})_layer([0-9]{1,4}).*
@@ -146,7 +142,7 @@ datasets:
       - name: original
         type: coco
         paths: 
-          - ./datasets/spine/annotations/instances_test2017.json
+          - ./datasets/spine/annotations/instances_test2017_simon.json
       - name: sam-b-bboxes-test
         type: coco
         paths: 
