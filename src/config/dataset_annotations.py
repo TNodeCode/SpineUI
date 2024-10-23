@@ -41,13 +41,14 @@ class DatasetAnnotations:
 
 
     @staticmethod
-    def get_coco_detections(annotation_file: str, filename: str):
+    def get_coco_detections(annotation_file: str, filename: str, show_labels=True):
         """
         Create a Decetion object for a given image containing the bounding boxes
 
         Parameters:
             annotation_file: The file where the COCO annotations are stored
             filename: The image filename
+            show_labels: Whether to show the labels or not
 
         Return:
             Detection object containing the bounding boxes
@@ -56,11 +57,12 @@ class DatasetAnnotations:
         annotations = list(coco)
         annotation = list(filter(lambda x: basename(x.image_id) == basename(filename), annotations))[0]
         bboxes = np.array(list(map(lambda b: [b.xmin, b.ymin, b.xmax, b.ymax], annotation.boxes)))
-        return Detection.from_bboxes(bboxes)
+        class_ids = np.array(list(map(lambda b: 0, annotation.boxes))) if show_labels else None
+        return Detection.from_bboxes(bboxes, class_id=class_ids)
 
 
     @staticmethod
-    def get_mmtracking_detections(annotation_file: str, filename: str, instance_labels=True):
+    def get_mmtracking_detections(annotation_file: str, filename: str, instance_labels=True, show_labels=True):
         """
         Create a Decetion object for a given image containing the bounding boxes
 
@@ -68,6 +70,7 @@ class DatasetAnnotations:
             annotation_file: The file where the COCO annotations are stored
             filename: The image filename
             instance_labels: Whether to show class or instance IDs
+            show_labels: Whether to show the labels or not
 
         Return:
             Detection object containing the bounding boxes
@@ -87,12 +90,13 @@ class DatasetAnnotations:
             ])
             c = box['mot_instance_id'] if instance_labels else box['category_id']
             class_id.append(c)
-        detection = Detection(xyxy=np.array(xyxy), class_id=np.array(class_id), masks=None)
+        class_ids = np.array(class_id) if show_labels else None
+        detection = Detection(xyxy=np.array(xyxy), class_id=class_ids, masks=None)
         return detection
 
 
     @staticmethod
-    def get_trackeval_detections(annotation_dir: str, filename: str, instance_labels=True):
+    def get_trackeval_detections(annotation_dir: str, filename: str, instance_labels=True, show_labels=True):
         """
         Create a Decetion object for a given image containing the bounding boxes
 
@@ -100,6 +104,7 @@ class DatasetAnnotations:
             annotation_file: The file where the COCO annotations are stored
             filename: The image filename
             instance_labels: Whether to show class or instance IDs
+            show_labels: Whether to show the labels or not
 
         Return:
             Detection object containing the bounding boxes
@@ -107,12 +112,8 @@ class DatasetAnnotations:
         annotation_files = os.listdir(annotation_dir)
         for annotation_file in annotation_files:
             if not os.path.splitext(annotation_file)[0] in filename:
-                print("NOT FOUND")
                 continue
             frame_number = int(os.path.splitext(os.path.basename(filename))[0])
-            print("ANNOTATION_FILE", annotation_file)
-            print("FILENAME", filename)
-            print("FRAME NUMBER", frame_number)
             df = pd.read_csv(f"{annotation_dir}/{annotation_file}", header=None)
             df = df[df[0] == frame_number]
             xyxy = []
@@ -126,12 +127,13 @@ class DatasetAnnotations:
                 ])
                 c = int(row[1]) if instance_labels else 1
                 class_id.append(c)
-            detection = Detection(xyxy=np.array(xyxy), class_id=np.array(class_id), masks=None)
+            class_ids = np.array(class_id) if show_labels else None
+            detection = Detection(xyxy=np.array(xyxy), class_id=class_ids, masks=None)
             return detection
 
 
     @staticmethod
-    def get_trackformer_detections(annotation_file: str, filename: str, instance_labels=True):
+    def get_trackformer_detections(annotation_file: str, filename: str, instance_labels=True, show_labels=True):
         """
         Create a Decetion object for a given image containing the bounding boxes
 
@@ -139,6 +141,7 @@ class DatasetAnnotations:
             annotation_file: The file where the COCO annotations are stored
             filename: The image filename
             instance_labels: Whether to show class or instance IDs
+            show_labels: Whether to show the labels or not
 
         Return:
             Detection object containing the bounding boxes
@@ -158,7 +161,8 @@ class DatasetAnnotations:
             ])
             c = box['track_id'] if instance_labels else box['category_id']
             class_id.append(c)
-        detection = Detection(xyxy=np.array(xyxy), class_id=np.array(class_id), masks=None)
+        class_ids = np.array(class_id) if show_labels else None
+        detection = Detection(xyxy=np.array(xyxy), class_id=class_ids, masks=None)
         return detection
     
 
@@ -168,6 +172,7 @@ class DatasetAnnotations:
         dataset_name: str,
         filename: str,
         instance_labels=False,
+        show_labels=True,
     ):
         """
         Get dataset detections
@@ -184,28 +189,32 @@ class DatasetAnnotations:
             return DatasetAnnotations.get_coco_detections(
                 annotation_file=annotation_obj['paths'][0],
                 filename=filename,
+                show_labels=show_labels,
             )
         elif annotation_obj['type'] == 'mmtracking':
             return DatasetAnnotations.get_mmtracking_detections(
                 annotation_file=annotation_obj['paths'][0],
                 filename=filename,
                 instance_labels=instance_labels,
+                show_labels=show_labels,
             )
         elif annotation_obj['type'] == 'trackformer':
             return DatasetAnnotations.get_trackformer_detections(
                 annotation_file=annotation_obj['paths'][0],
                 filename=filename,
                 instance_labels=instance_labels,
+                show_labels=show_labels,
             )
         elif annotation_obj['type'] == 'trackeval':
             return DatasetAnnotations.get_trackeval_detections(
                 annotation_dir=annotation_obj['paths'][0],
                 filename=filename,
                 instance_labels=instance_labels,
+                show_labels=show_labels,
             )
         elif annotation_obj['type'] == 'masks':
             return DatasetAnnotations.get_mask_detections(
                 dataset_name=dataset_name,
                 annotation_name=annotation_obj['name'],
-                filename=filename
+                filename=filename,
             )
