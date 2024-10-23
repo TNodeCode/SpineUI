@@ -1,13 +1,17 @@
 cascade-rcnn-r50:
+  type: detection
   config: ./configs/cascade_rcnn/cascade-rcnn_r50_fpn_1x_coco.py
   weights: ./work_dirs/cascade_rcnn/cascade-rcnn_r50_fpn_1x_coco_lr2e_4_run1/epoch_9.pth
 faster-rcnn-r50:
+  type: detection
   config: ./work_dirs/faster_rcnn/faster-rcnn_r50_fpn_1x_coco_lr2e-4_run3/faster-rcnn_r50_fpn_1x_coco.py
   weights: ./work_dirs/faster_rcnn/faster-rcnn_r50_fpn_1x_coco_mot_all_adamw_run4/epoch_7.pth
 sort:
+  type: tracking
   config: ./configs/deepsort/deepsort_faster-rcnn_r50_fpn_8xb2-4e_mot17halftrain_test-mot17halfval.py
   detector_weights: ./work_dirs/faster_rcnn/faster-rcnn_r50_fpn_1x_coco_mot_all_adamw_run4/epoch_7.pth
 deepsort:
+  type: tracking
   config: ./configs/deepsort/deepsort_faster-rcnn_r50_fpn_8xb2-4e_mot17halftrain_test-mot17halfval.py
   detector_weights: ./work_dirs/faster_rcnn/faster-rcnn_r50_fpn_1x_coco_mot_all_adamw_run4/epoch_7.pth
   reid_weights: ./work_dirs/reid/reid_mot_all/epoch_25.pth

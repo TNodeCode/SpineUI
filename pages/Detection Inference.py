@@ -1,3 +1,4 @@
+import os
 import streamlit as st
 import requests
 import pandas as pd
@@ -39,6 +40,8 @@ def view_image_upload():
     endpoint = list(filter(lambda x: x['name'] == selected_endpoint_name, endpoints))[0]
 
     available_models = ModelEndpoint.get_available_models(endpoint['url'])
+    available_models = list(filter(lambda x: x['type'] == 'detection', available_models))
+    available_models = list(map(lambda x: x['name'], available_models))
     selected_model = st.selectbox("Select model", available_models)
 
     if selected_model:
