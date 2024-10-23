@@ -29,7 +29,7 @@ services:
       - app
     command: ['python', 'app_dash.py']
   mmdet:
-    image: tnodecode/spine-co-detr
+    image: tnodecode/spine-mmdetection:light
     hostname: mmdet
     ports:
       - 8081:80

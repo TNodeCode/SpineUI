@@ -7,9 +7,9 @@ from src.endpoints.endpoint import ModelEndpoint
 from src.draw.image_loader import ImageLoader
 
 
-def send_image(url: str, image_file):
+def send_image(url: str, image_file: str, model_name: str):
     # Create the HTTP request
-    url = f"{url}/image_inference"
+    url = f"{url}/image_inference/{model_name}"
     files = {"file": image_file}
 
     with st.spinner("Performing inference ..."):
@@ -48,7 +48,11 @@ def view_image_upload():
         # Check if an image file was uploaded
         if image_file is not None:
             # Call the function to send the image
-            bboxes = send_image(endpoint['url'], image_file)
+            bboxes = send_image(
+                url=endpoint['url'],
+                image_file=image_file,
+                model_name=selected_model
+            )
 
             # Select a confidence score range
             min_score = st.slider("Minimum confidence score", min_value=0.0, max_value=1.0, step=0.01, value=0.5)
