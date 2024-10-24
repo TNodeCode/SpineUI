@@ -1,0 +1,1336 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../2-Tracking%20Models/">
+      
+      
+        <link rel="next" href="../../Setup/Installation/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.42">
+    
+    
+      
+        <title>Trackformer - SpineUI Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.0253249f.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#trackformer" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="SpineUI Documentation" class="md-header__button md-logo" aria-label="SpineUI Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            SpineUI Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Trackformer
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="orange"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="SpineUI Documentation" class="md-nav__button md-logo" aria-label="SpineUI Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    SpineUI Documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SpineUI
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Annotation Formats
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Annotation Formats
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Annotation%20Formats/1-MMDetection%20Tracking/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    MMDetection Tracking Dataset
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Annotation%20Formats/2-MOT%20Dataset%20Format/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    MOT Dataset annotations
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Annotation%20Formats/3-MOTRv2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    MOTRv2 Annotations
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Annotation%20Formats/4-CrowdHuman/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CrowdHuman Dataset
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Annotation%20Formats/5-Trackformer/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Trackformer Annotations
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    App
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            App
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../App/1-Intoduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../App/2-Datasets/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Datasets
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../App/3-REST-API/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    REST API
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../App/MMDET%20Models/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    MMDET Models
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../App/Models/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Models
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../App/Object%20Tracking/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Object Tracking
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Developers
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Developers
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Developers/Docker/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Docker Containers
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Developers/Miniconda/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Miniconda
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Developers/Slurm/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SLURM
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Developers/Spack%20Package%20Manager/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Spack Package Manager
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Developers/WSL/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Windows Subsystem for Linux
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Model Training
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Model Training
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1-Detection%20Models/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Detection Models
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2-Tracking%20Models/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Tracking Models
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Trackformer
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Trackformer
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      Environment
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setup-with-wsl" class="md-nav__link">
+    <span class="md-ellipsis">
+      Setup with WSL
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setup-with-docker-on-windows" class="md-nav__link">
+    <span class="md-ellipsis">
+      Setup with Docker on Windows
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#spine-dataset" class="md-nav__link">
+    <span class="md-ellipsis">
+      Spine dataset
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Spine dataset">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#build-the-docker-image" class="md-nav__link">
+    <span class="md-ellipsis">
+      Build the Docker image
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#train-model-on-windows-with-docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      Train model on Windows with Docker
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#train-a-model-on-a-linux-machine" class="md-nav__link">
+    <span class="md-ellipsis">
+      Train a model on a Linux machine
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#inference" class="md-nav__link">
+    <span class="md-ellipsis">
+      Inference
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Setup
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Setup
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Setup/Installation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Setup SpineUI
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      Environment
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setup-with-wsl" class="md-nav__link">
+    <span class="md-ellipsis">
+      Setup with WSL
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setup-with-docker-on-windows" class="md-nav__link">
+    <span class="md-ellipsis">
+      Setup with Docker on Windows
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#spine-dataset" class="md-nav__link">
+    <span class="md-ellipsis">
+      Spine dataset
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Spine dataset">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#build-the-docker-image" class="md-nav__link">
+    <span class="md-ellipsis">
+      Build the Docker image
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#train-model-on-windows-with-docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      Train model on Windows with Docker
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#train-a-model-on-a-linux-machine" class="md-nav__link">
+    <span class="md-ellipsis">
+      Train a model on a Linux machine
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#inference" class="md-nav__link">
+    <span class="md-ellipsis">
+      Inference
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="trackformer">Trackformer</h1>
+<p>Trackformer is an end-to-end object tracking model. You can find the source code inside the <code>trackformer</code> directory of this project.</p>
+<p>You cn find the source code we used for training the trackformer model in the <code>repositories/trackformer</code> directory of this Git repository.</p>
+<h2 id="environment">Environment</h2>
+<p>Trackformer was built to run in an environment where Python 3.7.x should be installed. There are several options for initializing such an environment on your system. We will show you two ways how you can setup this environment on your machine using Conda or Docker.</p>
+<h2 id="setup-with-wsl">Setup with WSL</h2>
+<p>You can setup Trackformer in a WSL environment under Windows. We have a separate article in this documentation about installing Linux CUDA environments under Windows. Follow the steps of this article and then follow the installation process described below for Conda environments.</p>
+<h2 id="setup-with-docker-on-windows">Setup with Docker on Windows</h2>
+<p>It is possible to run Trackformer inside a Docker container on Windows. We will explain the stept for creating the Docker image and how to run this Docker image in the following section.</p>
+<h2 id="spine-dataset">Spine dataset</h2>
+<p>Place the Spine MOT dataset in this directory: <code>data/spine</code>. The directory structure should now look like this:</p>
+<div class="highlight"><pre><span></span><code>data
+|- spine
+  |- annotations
+    |- test.json
+    |- train.json
+    |- val.json
+  |- test
+    |- &lt;stack_name&gt;
+      |- det
+      |- gt
+      |- img
+      |- seqinfo.ini
+    |- &lt;stack_name&gt;
+      |- ...
+  |- train
+    |- &lt;stack_name&gt;
+      |- det
+      |- gt
+      |- img
+      |- seqinfo.ini
+    |- &lt;stack_name&gt;
+      |- ...
+  |- val
+    |- &lt;stack_name&gt;
+      |- det
+      |- gt
+      |- img
+      |- seqinfo.ini
+    |- &lt;stack_name&gt;
+      |- ...
+</code></pre></div>
+<h3 id="build-the-docker-image">Build the Docker image</h3>
+<p>First we need to build the docker image. We have included a Dockerfile inside this repository under <code>trackformer/Dockerfile</code>. For building the image run the following command:</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>docker<span class="w"> </span>build<span class="w"> </span>-t<span class="w"> </span>tnodecode/trackformer-base
+</code></pre></div>
+<p>This process can take a while because the base image used is very large. After the command has finished you can now create an instance of this docker image and open its shell with the following command:</p>
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>run<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-it<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--gpus<span class="w"> </span>all<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--shm-size<span class="o">=</span>16gb<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--rm<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>tnodecode/trackformer-base<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>bash
+</code></pre></div>
+<p>Your terminal should now look like this:</p>
+<div class="highlight"><pre><span></span><code>root@3139f5fc0c8d:/app#
+</code></pre></div>
+<p>This means you are using the shell of your docker container. It is similar to connecting to a remote machine via SSH.</p>
+<p>Now we have created a Docker image that contains a PyTorch runtime together with the CUDA development tools which are needed for compiling the CUDA operators provided in <code>src/trackformer/models/ops</code>. Unfortunately Docker cannot access the GPU during image built time, so we have install the CUDA runtime and compie the operators via the Docker container shell. </p>
+<p>In the docker container shell run the following two commands and DO NOT CLOSE the shell afterwards.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># First switch to the conda trackformer environment inside the container</span>
+$<span class="w"> </span>conda<span class="w"> </span>init
+$<span class="w"> </span><span class="nb">source</span><span class="w"> </span>~/.bashrc
+$<span class="w"> </span>conda<span class="w"> </span>activate<span class="w"> </span>trackformer
+<span class="c1"># Install NVIDIA CUDA toolkit</span>
+$<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>nvidia-cuda-dev<span class="w"> </span>nvidia-cuda-toolkit
+<span class="c1"># Compile the operators</span>
+$<span class="w"> </span>python<span class="w"> </span>src/trackformer/models/ops/setup.py<span class="w"> </span>build<span class="w"> </span>--build-base<span class="o">=</span>src/trackformer/models/ops/<span class="w"> </span>install
+<span class="c1"># Update numpy, scipy and pandas</span>
+$<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-U<span class="w"> </span>numpy<span class="w"> </span>scipy<span class="w"> </span>pandas
+</code></pre></div>
+<p>When both commands are executed open a second terminal while the docker shell is still opened. In the second terminal type <code>docker ps</code> to get a list of all running docker containers. Find the container that you started and its name (<code>clever_bhabha</code> in this case).</p>
+<div class="highlight"><pre><span></span><code>$ docker ps
+CONTAINER ID   IMAGE                   COMMAND   CREATED         STATUS         PORTS     NAMES
+3139f5fc0c8d   tnodecode/trackformer-base   &quot;bash&quot;    2 minutes ago   Up 2 minutes             clever_bhabha
+</code></pre></div>
+<p>Now we want to create a new docker image based on our currently running container. We can do this with the following command:</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>docker<span class="w"> </span>commit<span class="w"> </span>clever_bhabha<span class="w"> </span>tnodecode/trackformer
+</code></pre></div>
+<p>This will create a new docker image with tag <code>tnodecode/trackformer</code> based on the container with the name <code>clever_bhabha</code>. After this command you can close the docker container shell in the first terminal by simply typing "exit" and pressing enter.</p>
+<p>Now you can create a container that is based on our new image by executing the following command:</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>docker<span class="w"> </span>run<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-it<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--gpus<span class="w"> </span>all<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--shm-size<span class="o">=</span>16gb<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--rm<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>tnodecode/trackformer<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>bash
+</code></pre></div>
+<h3 id="train-model-on-windows-with-docker">Train model on Windows with Docker</h3>
+<p>Now that we have built the image we can start training a Trackformer model. First download the pretrained models and place them inside the <code>models</code> directory. Then place the dataset inside the <code>data/spine</code> directory. Also create a directory named <code>checkpoints</code> where trackformer will store the ResNet50 or ResNet101 pretrained models.</p>
+<p>Now you can run the following command:</p>
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>run<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--gpus<span class="w"> </span>all<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--shm-size<span class="o">=</span>16gb<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--rm<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-v<span class="w"> </span><span class="nv">$PWD</span>/cfgs:/app/cfgs<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-v<span class="w"> </span><span class="nv">$PWD</span>/data:/app/data<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-v<span class="w"> </span><span class="nv">$PWD</span>/models:/app/models<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-v<span class="w"> </span><span class="nv">$PWD</span>/src:/app/src<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-v<span class="w"> </span><span class="nv">$PWD</span>/checkpoints:/root/.cache/torch/hub/checkpoints<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>tnodecode/trackformer<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>conda<span class="w"> </span>run<span class="w"> </span>--no-capture-output<span class="w"> </span>-n<span class="w"> </span>trackformer<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>python<span class="w"> </span>src/train.py<span class="w"> </span>with<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>mot17<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>deformable<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>multi_frame<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>tracking<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="nv">device</span><span class="o">=</span>cuda:0<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="nv">output_dir</span><span class="o">=</span>checkpoints/custom_dataset_deformable<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="nv">mot_path_train</span><span class="o">=</span>data/spine<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="nv">mot_path_val</span><span class="o">=</span>data/spine<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="nv">train_split</span><span class="o">=</span>train<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="nv">val_split</span><span class="o">=</span>val<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="nv">epochs</span><span class="o">=</span><span class="m">20</span><span class="w"> </span><span class="se">\</span>
+</code></pre></div>
+<p>The option <code>-v $PWD/cfgs:/app/cfgs</code> maps a directory from Windows into the container. PWD is the absolute path of your project (C:/Users/<username>/<project_dir>). We do this so that we can make changes to the code or the dataset without rebuilding the docker image. Also the created model weights are stored on our Windows filesystem instead on the container filesystem that will be destroyed when the container is shut down. The directory <code>/root/.cache/torch/hub/checkpoints</code> inside the container stores the downloaded models from Torch Hub. If we wouldn't map this directory to the <code>checkpoints</code> directory of our project the conainer woud download the model each time we restart the container because its filesystem is not persisted on the disk.</p>
+<h3 id="train-a-model-on-a-linux-machine">Train a model on a Linux machine</h3>
+<p>Training the model on a linux machine can be done by the following command:</p>
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>src/train.py<span class="w"> </span>with<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>mot17<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>deformable<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>multi_frame<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>tracking<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="nv">device</span><span class="o">=</span>cuda:0<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="nv">output_dir</span><span class="o">=</span>checkpoints/custom_dataset_deformable<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="nv">mot_path_train</span><span class="o">=</span>data/spine<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="nv">mot_path_val</span><span class="o">=</span>data/spine<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="nv">train_split</span><span class="o">=</span>train<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="nv">val_split</span><span class="o">=</span>val<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="nv">epochs</span><span class="o">=</span><span class="m">20</span><span class="w"> </span><span class="se">\</span>
+</code></pre></div>
+<p>We also created a script named <code>train_custom.sh</code> in the root directory of the trackformer repository which contains this command.</p>
+<h3 id="inference">Inference</h3>
+<p>Inference for all stacks of a dataset for all splits can be done with the following bash script:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">DATASET</span><span class="o">=</span>spine<span class="w">        </span><span class="c1"># dataset name</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">SUBDIR</span><span class="o">=</span>run_1<span class="w">         </span><span class="c1"># subdir in checkpoints dir</span>
+
+<span class="k">for</span><span class="w"> </span>MODEL_NAME<span class="w"> </span><span class="k">in</span><span class="w"> </span>MOTA<span class="w"> </span>IDF1<span class="w"> </span>BBOX_AP_IoU_0_50
+<span class="k">do</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span>SPLIT<span class="w"> </span><span class="k">in</span><span class="w"> </span>train<span class="w"> </span>val<span class="w"> </span><span class="nb">test</span>
+<span class="w">    </span><span class="k">do</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span>file<span class="w"> </span><span class="k">in</span><span class="w"> </span>./data/<span class="nv">$DATASET</span>/<span class="nv">$SPLIT</span>/*
+<span class="w">        </span><span class="k">do</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-d<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$file</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">            </span><span class="nv">STACK_NAME</span><span class="o">=</span><span class="s2">&quot;</span><span class="k">$(</span>basename<span class="w"> </span>--<span class="w"> </span><span class="nv">$file</span><span class="k">)</span><span class="s2">&quot;</span>
+<span class="w">            </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Processing&quot;</span><span class="w"> </span><span class="nv">$SPLIT</span><span class="w"> </span><span class="nv">$STACK_NAME</span><span class="w"> </span><span class="s2">&quot;...&quot;</span>
+<span class="w">            </span>python<span class="w"> </span>src/track.py<span class="w"> </span>with<span class="w"> </span><span class="se">\</span>
+<span class="w">                </span><span class="nv">dataset_name</span><span class="o">=</span><span class="nv">$STACK_NAME</span><span class="w"> </span><span class="se">\</span>
+<span class="w">                </span><span class="nv">obj_detect_checkpoint_file</span><span class="o">=</span>checkpoints/<span class="nv">$SUBDIR</span>/checkpoint_best_<span class="nv">$MODEL_NAME</span>.pth<span class="w"> </span><span class="se">\</span>
+<span class="w">                </span><span class="nv">write_images</span><span class="o">=</span>True<span class="w"> </span><span class="se">\</span>
+<span class="w">                </span><span class="nv">generate_attention_maps</span><span class="o">=</span>False<span class="w"> </span><span class="se">\</span>
+<span class="w">                </span><span class="nv">output_dir</span><span class="o">=</span>detections/<span class="nv">$SUBDIR</span>/<span class="nv">$MODEL_NAME</span>/<span class="nv">$SPLIT</span>
+<span class="w">        </span><span class="k">fi</span>
+<span class="w">        </span><span class="k">done</span>
+<span class="w">    </span><span class="k">done</span>
+<span class="k">done</span>
+</code></pre></div>
+<p>This will run inference on all images found in <code>data/spine/$SPLIT</code> and save renderen images with bounding boxes and trackformer detection files in <code>detections/$SUBDIR/$MODEL_NAME/$SPLIT</code>.</p>
+<p>The repository also contains this bash code in the file <code>track_custom.sh</code> in the root directory.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.83f73b43.min.js"></script>
+      
+    
+  </body>
+</html>
