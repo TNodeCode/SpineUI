@@ -1,0 +1,1459 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../3-REST-API/">
+      
+      
+        <link rel="next" href="../Models/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.42">
+    
+    
+      
+        <title>MMDET Models - SpineUI Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.0253249f.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#mmdet-models" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="SpineUI Documentation" class="md-header__button md-logo" aria-label="SpineUI Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            SpineUI Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              MMDET Models
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="orange"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="SpineUI Documentation" class="md-nav__button md-logo" aria-label="SpineUI Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    SpineUI Documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SpineUI
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Annotation Formats
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Annotation Formats
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Annotation%20Formats/1-MMDetection%20Tracking/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    MMDetection Tracking Dataset
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Annotation%20Formats/2-MOT%20Dataset%20Format/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    MOT Dataset annotations
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Annotation%20Formats/3-MOTRv2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    MOTRv2 Annotations
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Annotation%20Formats/4-CrowdHuman/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CrowdHuman Dataset
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Annotation%20Formats/5-Trackformer/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Trackformer Annotations
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    App
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            App
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1-Intoduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2-Datasets/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Datasets
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3-REST-API/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    REST API
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    MMDET Models
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    MMDET Models
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#model-implementations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Model implementations
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Model implementations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#faster-rcnn" class="md-nav__link">
+    <span class="md-ellipsis">
+      Faster RCNN
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cascade-rcnn" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cascade RCNN
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deformable-detr" class="md-nav__link">
+    <span class="md-ellipsis">
+      Deformable DETR
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#co-detr" class="md-nav__link">
+    <span class="md-ellipsis">
+      Co-DETR
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configure-the-mmdet-docker-container" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure the MMDET docker container
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configure the MMDET docker container">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#updating-the-docker-image" class="md-nav__link">
+    <span class="md-ellipsis">
+      Updating the docker image
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuring-the-available-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuring the available models
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exploring-the-openapi-interface-of-the-docker-container" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exploring the OpenAPI interface of the docker container
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Exploring the OpenAPI interface of the docker container">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#get-all-available-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      Get all available models
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#testing-model-inference" class="md-nav__link">
+    <span class="md-ellipsis">
+      Testing model inference
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-the-mmdet-models-in-spineui" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using the MMDET models in SpineUI
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-python-to-send-images-to-the-rest-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using Python to send images to the REST-API
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Models/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Models
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Object%20Tracking/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Object Tracking
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Developers
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Developers
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Developers/Docker/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Docker Containers
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Developers/Miniconda/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Miniconda
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Developers/Slurm/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SLURM
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Developers/Spack%20Package%20Manager/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Spack Package Manager
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Developers/WSL/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Windows Subsystem for Linux
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Model Training
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Model Training
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Model%20Training/1-Detection%20Models/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Detection Models
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Model%20Training/2-Tracking%20Models/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Tracking Models
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Model%20Training/3-Trackformer/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Trackformer
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Setup
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Setup
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Setup/Installation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Setup SpineUI
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#model-implementations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Model implementations
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Model implementations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#faster-rcnn" class="md-nav__link">
+    <span class="md-ellipsis">
+      Faster RCNN
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cascade-rcnn" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cascade RCNN
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deformable-detr" class="md-nav__link">
+    <span class="md-ellipsis">
+      Deformable DETR
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#co-detr" class="md-nav__link">
+    <span class="md-ellipsis">
+      Co-DETR
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configure-the-mmdet-docker-container" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure the MMDET docker container
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configure the MMDET docker container">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#updating-the-docker-image" class="md-nav__link">
+    <span class="md-ellipsis">
+      Updating the docker image
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuring-the-available-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuring the available models
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exploring-the-openapi-interface-of-the-docker-container" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exploring the OpenAPI interface of the docker container
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Exploring the OpenAPI interface of the docker container">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#get-all-available-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      Get all available models
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#testing-model-inference" class="md-nav__link">
+    <span class="md-ellipsis">
+      Testing model inference
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-the-mmdet-models-in-spineui" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using the MMDET models in SpineUI
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-python-to-send-images-to-the-rest-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using Python to send images to the REST-API
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="mmdet-models">MMDET Models</h1>
+<p>In this article we show you how you can use models that were trained with the MMDET framework. For the spine detection task we trained four different models:</p>
+<ul>
+<li>Faster RCNN</li>
+<li>Cascade RCNN</li>
+<li>Deformable DETR</li>
+<li>CO-DETR</li>
+</ul>
+<h2 id="model-implementations">Model implementations</h2>
+<p>In MMDET each model implementation is described by a configuration file. Below you can see a list of all the models that have been trained on the spine dataset and are supported by the MMDET docker container.</p>
+<h3 id="faster-rcnn">Faster RCNN</h3>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Configfile</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>faster_rcnn</td>
+<td>faster_rcnn_r50_fpn_1x_coco</td>
+</tr>
+<tr>
+<td>faster_rcnn</td>
+<td>faster_rcnn_r101_fpn_1x_coco</td>
+</tr>
+<tr>
+<td>faster_rcnn</td>
+<td>faster_rcnn_x101_32x4d_fpn_1x_coco</td>
+</tr>
+<tr>
+<td>faster_rcnn</td>
+<td>faster_rcnn_x101_64x4d_fpn_1x_coco</td>
+</tr>
+</tbody>
+</table>
+<h3 id="cascade-rcnn">Cascade RCNN</h3>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Configfile</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cascade RCNN</td>
+<td>cascade_rcnn_r50_fpn_1x_coco</td>
+</tr>
+<tr>
+<td>Cascade RCNN</td>
+<td>cascade_rcnn_r101_fpn_1x_coco</td>
+</tr>
+<tr>
+<td>Cascade RCNN</td>
+<td>cascade_rcnn_x101_32x4d_fpn_1x_coco</td>
+</tr>
+<tr>
+<td>Cascade RCNN</td>
+<td>cascade_rcnn_x101_64x4d_fpn_1x_coco</td>
+</tr>
+</tbody>
+</table>
+<h3 id="deformable-detr">Deformable DETR</h3>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Configfile</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Deformable DETR</td>
+<td>deformable_detr_r50_16x2_50e_coco</td>
+</tr>
+<tr>
+<td>Deformable DETR</td>
+<td>deformable_detr_refine_r50_16x2_50e_coco</td>
+</tr>
+<tr>
+<td>Deformable DETR</td>
+<td>deformable_detr_twostage_refine_r50_16x2_50e_coco</td>
+</tr>
+</tbody>
+</table>
+<h3 id="co-detr">Co-DETR</h3>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Configfile</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Co-DETR</td>
+<td>co_dino_5scale_swin_large_16e_o365tococo_spine</td>
+</tr>
+</tbody>
+</table>
+<h2 id="configure-the-mmdet-docker-container">Configure the MMDET docker container</h2>
+<p>First we need to add the MMDET image to a docker compose file. Have a look at the <code>docker-compose.yml</code> file in this repository. The following section should be part of this file:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">services</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">mmdet</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tnodecode/spine-co-detr</span>
+<span class="w">    </span><span class="nt">hostname</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">spine-co-detr</span>
+<span class="w">    </span><span class="nt">ports</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8081:80</span>
+<span class="w">    </span><span class="nt">volumes</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./available_models.yml:/app/available_models.yml</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./models/mmcv:/app/runs</span>
+</code></pre></div>
+<p>This means when you run the docker environment with the command <code>docker compose up -d</code> a docker container based on the image <code>tnodecode/spine-co-detr</code> is started. It will run on port 8081 on your machine. Also two directories will be mapped into the container. First the <code>available_models.yml</code> file in the root directory of this repository will be mapped to the <code>/app/available_models.yml</code> directory inside of the container. Also the directory <code>./models</code> of this repository will be mapped to the <code>/app/runs</code> directory inside the container. This means if you have a model weight file on this machine placed in <code>./models/mmvc/my_weights.pth</code> it will be available in the container under <code>/app/runs/my_weights.pth</code>.</p>
+<h3 id="updating-the-docker-image">Updating the docker image</h3>
+<p>You can update the MMDET docker image by running th e command <code>docker pull tnodecode/spine-co-detr</code> in your terminal. Sometimes docker compose doen't check for newer versions of the docker images.</p>
+<h2 id="configuring-the-available-models">Configuring the available models</h2>
+<p>Next we need to tell the container which models we have trained and where the weight files of these models are. This is what the <code>available_models.yml</code> file is resposible for. For each available weight file we need to create an entry like the following one in this file:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">faster-rcnn-r50</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">config</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./configs/faster_rcnn/faster_rcnn_r50_fpn_1x_coco.py</span>
+<span class="w">  </span><span class="nt">weights</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./runs/faster_rcnn_r50_fpn_1x_coco/epoch_9.pth</span>
+</code></pre></div>
+<p>Each entry needs to have a unique key like <code>faster-rcnn-r50</code> in this example. The key can be chosen freely. Each key has an attribute named <code>config</code> and an attribute named <code>weights</code>. The <code>config</code> attribute points to the configuration file inside of the docker container. Usually in MMDET configuration files are places in the subdirectory <code>./configs/&lt;model_name&gt;/&lt;config_file&gt;.py</code>. Replace <code>&lt;model_name&gt;</code> with one of the supported model names from the table above and <code>&lt;config_file&gt;</code> with the corresponding configuration file name. For the <code>weights</code> parameter add the path relative to the <code>/app</code> directory of the weight file. As we explained earlier a weight file that is stored under <code>./models/mmcv/faster_rcnn/faster_rcnn_r50_fpn_1x_coco/epoch_9.pth</code> in this repository will be mapped to the path <code>/app/runs/faster_rcnn/faster_rcnn_r50_fpn_1x_coco/epoch_9.pth</code> inside of the docker container, so the path relative to <code>/app</code> would be <code>./runs/faster_rcnn/faster_rcnn_r50_fpn_1x_coco/epoch_9.pth</code>in this case.</p>
+<h2 id="exploring-the-openapi-interface-of-the-docker-container">Exploring the OpenAPI interface of the docker container</h2>
+<p>The REST-API that was built around the MMDET library supports a documentation format called OpenAPI. OpenAPI is a web interface that can be used for testing a REST-API. When the docker container is started this OpenAPI interface will be available at http://localhost:8081/docs.</p>
+<p><img src="/SpineUI/images/openapi/openapi_docs.png" /></p>
+<h3 id="get-all-available-models">Get all available models</h3>
+<p>If you have added all your available model weight files to the <code>available_models.yml</code> file you can test if they are recognized by the docker container using the OpenAPI interface. Click on the <code>GET /available_models</code> section and then on the <code>Try it out</code> button and finally on the <code>Execute</code> button.</p>
+<p>You should then see the response of the REST-API which should be a list of all your keys that are defined in <code>available_models.yml</code>.</p>
+<p><img src="/SpineUI/images/openapi/available_models_result.png" /></p>
+<h3 id="testing-model-inference">Testing model inference</h3>
+<p>There is a second endpoint the REST-API provides that can accept an image and returns a list of bounding boxes. Click on the <code>POST /image_inference/{model_id}</code> section, then on <code>Try it out</code>. In the <code>model_id</code>field enter one of the names that were returned by the <code>/available_models</code> endpoint, which should correspond to the keys in <code>available_models.yml</code>. Next click on the file input and select one image that should be sent through the model. Finally click on the <code>Execute</code> button.</p>
+<p><img src="/SpineUI/images/openapi/inference_endpoint.png" /></p>
+<p>After a few seconds the model should return a list of detected bounding boxes which could look like this:</p>
+<p><img src="/SpineUI/images/openapi/inference_endpoint_results.png" /></p>
+<h2 id="using-the-mmdet-models-in-spineui">Using the MMDET models in SpineUI</h2>
+<p>First we need to tell SpineUI under which address the MMDET docker container can be found. Each docker container that provides a REST-API with routes for available models and image inference can be registered in the configuration file <code>./config/models.yml</code>.</p>
+<p>When using the default docker-compose file the MMDET contaier is reachable under http://localhost:8081 in the browser. But when SpineUI itself runs within a docker container <code>localhost</code> is not the same for SpineUI as for our browser. The docker containers can find other docker containers that were created by the same docker-compose file via the container hostnames, which means that we have to use the address <code>http://mmdet:80</code> in the configuration file.</p>
+<p>Add the MMDET REST-API to this configuration file:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">models</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MMDET Docker</span>
+<span class="w">    </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">http://mmdet:80</span>
+</code></pre></div>
+<p>Now you can use the docker container in the <code>Model Infrerence</code> view of SpineUI.</p>
+<h2 id="using-python-to-send-images-to-the-rest-api">Using Python to send images to the REST-API</h2>
+<p>You can also use the REST-API interface in Python scripts like in the following example:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">file_path</span> <span class="o">=</span> <span class="s1">&#39;./path/to/image.png&#39;</span>
+<span class="n">model_name</span> <span class="o">=</span> <span class="s1">&#39;faster-rcnn-r50&#39;</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;http://localhost:8081/image_inference/</span><span class="si">{</span><span class="n">model_name</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">files</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;file&#39;</span><span class="p">:</span> <span class="n">file</span><span class="p">})</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+<span class="n">bboxes</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;bboxes&#39;</span><span class="p">]</span>
+
+<span class="c1"># Iterating over bounding boxes</span>
+<span class="k">for</span> <span class="n">bbox</span> <span class="ow">in</span> <span class="n">bboxes</span><span class="p">:</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">bbox</span><span class="p">[</span><span class="s1">&#39;filename&#39;</span><span class="p">]</span>
+    <span class="n">class_index</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">bbox</span><span class="p">[</span><span class="s1">&#39;class_index&#39;</span><span class="p">])</span>
+    <span class="n">class_name</span> <span class="o">=</span> <span class="n">bbox</span><span class="p">[</span><span class="s1">&#39;class_name&#39;</span><span class="p">]</span>
+    <span class="n">xmin</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">bbox</span><span class="p">[</span><span class="s1">&#39;xmin&#39;</span><span class="p">])</span>
+    <span class="n">xmax</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">bbox</span><span class="p">[</span><span class="s1">&#39;xmax&#39;</span><span class="p">])</span>
+    <span class="n">ymin</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">bbox</span><span class="p">[</span><span class="s1">&#39;ymin&#39;</span><span class="p">])</span>
+    <span class="n">ymax</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">bbox</span><span class="p">[</span><span class="s1">&#39;ymax&#39;</span><span class="p">])</span>
+    <span class="n">score</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">bbox</span><span class="p">[</span><span class="s1">&#39;score&#39;</span><span class="p">])</span>
+</code></pre></div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.83f73b43.min.js"></script>
+      
+    
+  </body>
+</html>
