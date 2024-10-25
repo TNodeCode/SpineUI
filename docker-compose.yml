@@ -35,7 +35,7 @@ services:
       - 8081:80
     volumes:
       - ./available_models.yml:/app/available_models.yml
-      - ./models/mmcv:/app/runs
+      - ./work_dirs:/app/work_dirs
     networks:
       - app
 
