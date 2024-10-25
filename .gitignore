@@ -5,3 +5,5 @@
 !start_app.sh
 !stop_app.sh
 !update_app.sh
+datasets/
+work_dirs/

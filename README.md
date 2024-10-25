@@ -33,6 +33,15 @@ When you finished with the steps above you can run the application by executing 
 $ docker compose up
 ```
 
+Now you can open the App in the browser:
+
+- SpineUI: http://localhost:8501
+- Dash: 
+  - MOT evaluation: http://localhost:8050/mot_evaluation
+  - Model bounding box density plot: http://localhost:8050/model_evaluation
+  - Training evaluation: http://localhost:8050/training_evaluation
+- MMDetection OpenAPI Interface: http://localhost:8081/docs
+
 ## Shut down the application
 
 When you want to shut down the application ht CTRL+C / Command+C in your terminal and then run the following command:
