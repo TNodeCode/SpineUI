@@ -1,0 +1,11 @@
+services:
+  mmdet:
+    image: tnodecode/spine-mmdetection:light
+    hostname: mmdet
+    ports:
+      - 8081:80
+    volumes:
+      - ./api.py:/app/api.py
+      - ./available_models.yml:/app/available_models.yml
+      - ./work_dirs:/app/work_dirs
+    command: ["uvicorn", "api:app", "--host", "0.0.0.0", "--port", "80", "--reload"]
